@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0a2640;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.header nav a {
+  color: white;
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #1f6feb;
+  color: white;
+}
+
+.hero button {
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.services {
+  padding: 2rem;
+  text-align: center;
+}
+
+.service-list {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.service-card {
+  background: #f4f4f4;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 250px;
+}
+
+.about {
+  padding: 2rem;
+  background: #f8f9fa;
+  text-align: center;
+}
+
+.footer {
+  background: #0a2640;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
