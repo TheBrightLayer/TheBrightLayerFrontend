@@ -1,34 +1,62 @@
 import React from "react";
+import "../styles/Services.css";
 
-const Services = () => {
-  const serviceData = [
-    {
-      title: "Web Development",
-      desc: "Creating modern and responsive websites.",
-    },
-    {
-      title: "SEO Optimization",
-      desc: "Improve your visibility on search engines.",
-    },
-    {
-      title: "UI/UX Design",
-      desc: "Designing user-friendly and appealing interfaces.",
-    },
-  ];
-
+export function Services() {
   return (
-    <section id="services">
-      <h2>Our Services</h2>
-      <div className="service-list">
-        {serviceData.map((service, index) => (
-          <div key={index} className="service-card">
-            <h3>{service.title}</h3>
-            <p>{service.desc}</p>
-          </div>
-        ))}
+    <section className="services-section">
+      {/* Stats Row */}
+      <div className="stats">
+        <div>
+          <span className="stat-number red">14+</span>
+          <span className="stat-label">Years in Business</span>
+        </div>
+        <div>
+          <span className="stat-number red">200+</span>
+          <span className="stat-label">IT Professionals</span>
+        </div>
+        <div>
+          <span className="stat-number red">1500+</span>
+          <span className="stat-label">Projects Done</span>
+        </div>
+      </div>
+
+      {/* Heading */}
+      <h2>
+        Services <span className="red">We Offer</span>
+      </h2>
+
+      {/* Description */}
+      <p>
+        Welcome to TBoUz Technologies, where we specialize in empowering
+        businesses to excel in the digital landscape. Our comprehensive services
+        include custom website and{" "}
+        <a href="#mobile-app">mobile app development</a>, as well as{" "}
+        <a href="#software-solutions">tailored software solutions</a>. We are
+        committed to delivering outstanding work that exceeds expectations, with
+        a strong emphasis on quality, efficiency, and collaboration.
+      </p>
+
+      {/* Service Cards */}
+      <div className="service-grid">
+        <div className="service-card">Enterprise Software</div>
+        <div className="service-card">SaaS Application</div>
+        <div className="service-card">Enterprise Mobility Solutions</div>
+        <div className="service-card">UX Research</div>
+        <div className="service-card">Cloud & Infrastructure</div>
+        <div className="service-card">Business Process Automation</div>
+      </div>
+
+      {/* Call to Actions */}
+      <div className="cta-row">
+        <div className="cta-box">
+          <h3>Didn’t find what you are looking for?</h3>
+          <button className="outline-btn">Explore Now</button>
+        </div>
+        <div className="cta-box">
+          <h3>Ready to start your Project?</h3>
+          <button className="filled-btn">Let’s Chat</button>
+        </div>
       </div>
     </section>
   );
-};
-
-export default Services;
+}
