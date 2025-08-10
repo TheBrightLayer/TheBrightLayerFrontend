@@ -14,7 +14,7 @@ export function Header() {
       <div className="nav-container">
         {/* Logo */}
         <div className="logo">
-          <img src="../assets/BrightLayerLogo" alt="BrightLayer" />
+          <img src="../assets/BrightLayerLogo.jpg" alt="BrightLayer" />
         </div>
 
         {/* Menu links */}

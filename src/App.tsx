@@ -7,6 +7,7 @@ import { About } from "./components/About";
 import Footer from "./components/Footer";
 import { VideoShowcase } from "./components/VideoShowCase";
 import "./components/App.css";
+import ServiceStack from "./components/ServiceStack";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
       <Header />
       <Hero />
       <VideoShowcase />
+      <Services />
+      <ServiceStack />
+      <Footer />
     </>
   );
 }

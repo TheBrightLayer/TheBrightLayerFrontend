@@ -1,78 +1,113 @@
+/* Services Section */
 .services-section {
-    padding: 40px 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .red {
-    color: #ff4d4f;
-  }
-  
-  .stats {
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .stat-number {
-    font-size: 24px;
-    font-weight: bold;
-    display: block;
-  }
-  
-  .stat-label {
-    font-size: 14px;
-    color: inherit;
-  }
-  
-  /* Service grid */
-  .service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin: 30px 0;
-  }
-  
-  .service-card {
-    border: 1px solid #ccc;
-    padding: 16px;
-    text-align: center;
-    transition: background 0.3s ease;
-  }
-  
-  .service-card:hover {
-    background: rgba(255, 77, 79, 0.1);
-  }
-  
-  /* Call to action boxes */
-  .cta-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .cta-box {
-    flex: 1;
-    min-width: 250px;
-    border: 1px solid #ccc;
-    padding: 20px;
-  }
-  
-  /* Dark mode styles */
-  body.dark-mode .services-section {
-    background-color: #121212;
-    color: #f5f5f5;
-  }
-  
-  body.dark-mode .service-card {
-    border-color: #444;
-  }
-  
-  body.dark-mode .service-card:hover {
-    background: rgba(255, 77, 79, 0.2);
-  }
-  
-  body.dark-mode .cta-box {
-    border-color: #444;
-  }
-  
+  padding: 80px 10%;
+  background-color: #f9f9f9;
+  text-align: start;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+/* Heading */
+.services-section h2 {
+  font-size: 64px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.services-section h2 .red {
+  color: #e63946;
+}
+
+/* Description text */
+.services-section p {
+  font-size: 24px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.services-section p a {
+  color: #e63946;
+  text-decoration: none;
+}
+
+.services-section p a:hover {
+  text-decoration: underline;
+}
+
+/* Service Cards Grid */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.service-card {
+  background-color: #fff;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  font-size: 18px;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* CTA Row */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.cta-box {
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cta-box h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Buttons */
+.outline-btn {
+  border: 2px solid #e63946;
+  background-color: transparent;
+  color: #e63946;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.outline-btn:hover {
+  background-color: #e63946;
+  color: #fff;
+}
+
+.filled-btn {
+  background-color: #e63946;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filled-btn:hover {
+  background-color: #cc2e3a;
+}

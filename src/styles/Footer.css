@@ -1,0 +1,105 @@
+.footer {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Top Banner */
+  .footer-top {
+    background: linear-gradient(to bottom, #d72638, #b51f2e);
+    color: white;
+    padding: 60px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  .footer-top h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    max-width: 700px;
+  }
+  
+  .expert-btn {
+    background: black;
+    color: white;
+    padding: 16px 30px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  /* Bottom Section */
+  .footer-bottom {
+    background: #151c29;
+    color: white;
+    padding: 50px 8% 30px;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .footer-col {
+    min-width: 180px;
+    flex: 1;
+  }
+  
+  .footer-logo {
+    width: 120px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-col h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .footer-col p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #cfd4da;
+  }
+  
+  .social-col {
+    min-width: 200px;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .social-icons a {
+    width: 36px;
+    height: 36px;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+  }
+  
+  .social-icons a:hover {
+    background: white;
+    color: black;
+  }
+  
+  /* Awards Row */
+  .footer-awards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .footer-awards img {
+    height: 50px;
+  }
+  

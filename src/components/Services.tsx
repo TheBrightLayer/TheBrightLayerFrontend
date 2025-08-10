@@ -5,7 +5,7 @@ export function Services() {
   return (
     <section className="services-section">
       {/* Stats Row */}
-      <div className="stats">
+      {/* <div className="stats">
         <div>
           <span className="stat-number red">14+</span>
           <span className="stat-label">Years in Business</span>
@@ -18,7 +18,7 @@ export function Services() {
           <span className="stat-number red">1500+</span>
           <span className="stat-label">Projects Done</span>
         </div>
-      </div>
+      </div> */}
 
       {/* Heading */}
       <h2>
@@ -35,6 +35,15 @@ export function Services() {
         committed to delivering outstanding work that exceeds expectations, with
         a strong emphasis on quality, efficiency, and collaboration.
       </p>
+      <p>
+        With a strong emphasis on quality, efficiency, and collaboration, we
+        guarantee to achieve and surpass your business objectives. Our goal is
+        to deliver results that not only meet your needs but also add
+        significant value to your business. Choose ITobuz Technologies as your
+        digital partner and let us help you navigate the complexities of the
+        digital landscape. Collaboratively, we can reach your business
+        objectives and propel your success in the digital realm.
+      </p>
 
       {/* Service Cards */}
       <div className="service-grid">
@@ -43,7 +52,6 @@ export function Services() {
         <div className="service-card">Enterprise Mobility Solutions</div>
         <div className="service-card">UX Research</div>
         <div className="service-card">Cloud & Infrastructure</div>
-        <div className="service-card">Business Process Automation</div>
       </div>
 
       {/* Call to Actions */}

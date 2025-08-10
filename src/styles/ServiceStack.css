@@ -1,0 +1,85 @@
+.industries-section {
+    background: #f5f8fc;
+    padding: 80px 10%;
+    font-family: Arial, sans-serif;
+  }
+  
+  .industries-header {
+    text-align: start;
+
+  
+  }
+  
+  .industries-header h2 {
+    font-size: 64px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  
+  .industries-header h2 span {
+    color: #e63946;
+  }
+  
+  .industries-header p {
+    font-size: 24px;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .industries-header a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .industries-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .industry-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 350px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  
+  .industry-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .industry-content {
+    padding: 20px;
+  }
+  
+  .industry-content h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  
+  .industry-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .industry-content li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+  }
+  
+  .industry-content li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #000;
+    font-weight: bold;
+  }
+  
