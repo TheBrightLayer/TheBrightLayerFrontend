@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import "../styles/VideoShowcase.css";
 import homeVideo from "../assets/Itobuz-Home-Vid.mp4";
 
