@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
           <div className="footer-col">
             <h4>Kolkata</h4>
             <p>
-              STP Building, DN 53 Block,
+              STP Building, DN 24 Block,
               <br />
               Salt Lake, Sec-V,
               <br />
@@ -42,20 +42,11 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-col">
-            <h4>Hyderabad</h4>
-            <p>
-              STEP IIT Kharagpur,
-              <br />
-              West Bengal-721302
-            </p>
-          </div>
-
-          <div className="footer-col">
             <h4>Jamshedpur</h4>
             <p>
               82-21 150th Avenue,
               <br />
-              DEL 117 Springfield Gardens,
+              DEL 117 Springfield Gardens
               <br />
             </p>
           </div>
