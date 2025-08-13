@@ -1,6 +1,6 @@
 .hero {
     padding: 60px 20px;
-    background-color: #fff;
+    background-color: black;
   }
   
   .hero-content {
@@ -18,10 +18,11 @@
     font-weight: bold;
     line-height: 1.2;
     margin: 0;
+    color: #333;
   }
   
   .highlight-red {
-    color: #d32f2f;
+    color: whitesmoke;
   }
   
   /* Right description */
@@ -33,17 +34,18 @@
     font-size: 24px;
     line-height: 1.6;
     margin-bottom: 20px;
+    color: whitesmoke;
   }
   
   /* Button */
   .black-btn {
     background-color: black;
-    color: white;
+    color: #333;
     padding: 14px 28px;
     border: none;
     cursor: pointer;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 20px;
     text-transform: uppercase;
     transition: background 0.3s ease;
   }

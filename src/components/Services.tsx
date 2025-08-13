@@ -27,22 +27,18 @@ export function Services() {
 
       {/* Description */}
       <p>
-        Welcome to TBoUz Technologies, where we specialize in empowering
-        businesses to excel in the digital landscape. Our comprehensive services
-        include custom website and{" "}
-        <a href="#mobile-app">mobile app development</a>, as well as{" "}
-        <a href="#software-solutions">tailored software solutions</a>. We are
-        committed to delivering outstanding work that exceeds expectations, with
-        a strong emphasis on quality, efficiency, and collaboration.
+        Welcome to TheBrightLayer, where we specialize in empowering businesses
+        to excel in the digital landscape. Our comprehensive services include
+        custom website and <a href="#mobile-app">mobile app development</a>, as
+        well as <a href="#software-solutions">tailored software solutions</a>.
+        We are committed to delivering outstanding work that exceeds
+        expectations, with a strong emphasis on quality, efficiency, and
+        collaboration.
       </p>
       <p>
-        With a strong emphasis on quality, efficiency, and collaboration, we
-        guarantee to achieve and surpass your business objectives. Our goal is
-        to deliver results that not only meet your needs but also add
-        significant value to your business. Choose ITobuz Technologies as your
-        digital partner and let us help you navigate the complexities of the
-        digital landscape. Collaboratively, we can reach your business
-        objectives and propel your success in the digital realm.
+        We guarantee to achieve and surpass your business objectives. Our goal
+        is to deliver results that not only meet your needs but also add
+        significant value to your business.
       </p>
 
       {/* Service Cards */}
@@ -51,7 +47,6 @@ export function Services() {
         <div className="service-card">SaaS Application</div>
         <div className="service-card">Enterprise Mobility Solutions</div>
         <div className="service-card">UX Research</div>
-        <div className="service-card">Cloud & Infrastructure</div>
       </div>
 
       {/* Call to Actions */}

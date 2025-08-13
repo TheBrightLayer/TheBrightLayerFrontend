@@ -1,9 +1,12 @@
 import React from "react";
+import logo1 from "../assets/healthcare-img.png";
+import logo2 from "../assets/Rectangle-15.png";
+import logo3 from "../assets/Rectangle-21.png";
 import "../styles/ServiceStack.css";
 
 const industries = [
   {
-    img: "../assets/healthcare-img.png",
+    img: logo1,
     title: "Healthcare & Wellness",
     points: [
       "Telemedicine",
@@ -12,7 +15,7 @@ const industries = [
     ],
   },
   {
-    img: "/images/transport.jpg",
+    img: logo2,
     title: "Transportation & Logistics",
     points: [
       "Supply Chain Management",
@@ -21,7 +24,7 @@ const industries = [
     ],
   },
   {
-    img: "/images/hotel.jpg",
+    img: logo3,
     title: "Hotels & Restaurant",
     points: ["POS System", "Table Management", "Room Service Automation"],
   },
@@ -35,7 +38,7 @@ const ServiceStack: React.FC = () => {
           Industries We <span>Serve</span>
         </h2>
         <p>
-          ITobuz Technologies caters to diverse industries such as healthcare,
+          TheBrightLayer caters to diverse industries such as healthcare,
           finance, and manufacturing, leveraging our Custom Web & Mobile App
           Development Services to deliver tailored solutions for each sector’s
           distinct requirements. Whether you need a{" "}

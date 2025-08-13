@@ -1,12 +1,12 @@
 .industries-section {
-    background: #f5f8fc;
+    background: black;
     padding: 80px 10%;
     font-family: Arial, sans-serif;
   }
   
   .industries-header {
     text-align: start;
-
+    color: #333;
   
   }
   
@@ -17,7 +17,7 @@
   }
   
   .industries-header h2 span {
-    color: #e63946;
+    color: #ffdd33;
   }
   
   .industries-header p {

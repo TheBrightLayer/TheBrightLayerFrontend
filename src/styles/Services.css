@@ -1,7 +1,146 @@
 /* Services Section */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+
+
+.services-section p a {
+  color: #ff8a00;
+  text-decoration: none;
+}
+
+.services-section p a:hover {
+  text-decoration: underline;
+}
+
+/* Card List Container (scrollable) */
+.service-grid {
+  display: flex;
+  padding: 3rem 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.service-grid::-webkit-scrollbar {
+  height: 8px;
+}
+.service-grid::-webkit-scrollbar-thumb {
+  background: #201c29;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 2px hsla(0,0%,100%,.25), inset -2px -2px 2px rgba(0,0,0,.25);
+}
+.service-grid::-webkit-scrollbar-track {
+  background: linear-gradient(90deg,#201c29,#201c29 1px,#17141d 0,#17141d);
+}
+
+/* Individual Cards */
+.service-card {
+  height: 280px;
+  min-width: 250px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: #17141d;
+  color: #FFC107;
+  box-shadow: 0px 0px 15px rgba(255, 193, 7, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;
+  transition: 0.3s;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.service-card:hover {
+  transform: translateY(-1rem);
+  border-color: #ffdd33;
+  box-shadow: 0px 0px 25px rgba(255, 193, 7, 0.7);
+}
+
+.service-card:not(:first-child) {
+  margin-left: -90px;
+}
+
+.service-card:focus-within ~ .service-card,
+.service-card:hover ~ .service-card {
+  transform: translateX(90px);
+}
+
+/* CTA Row */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.cta-box {
+  flex: 1;
+  min-width: 300px;
+  background-color: #1e1b24;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 15px rgba(255, 193, 7, 0.3);
+  color: #FFC107;
+  transition: all 0.3s ease-in-out;
+
+}
+
+.cta-box:hover {
+  border-color: #ffdd33;
+  box-shadow: 0px 0px 25px rgba(255, 193, 7, 0.7);
+}
+
+.cta-box h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+.outline-btn {
+  border: 2px solid #FFC107;
+  background: transparent;
+  color: #FFC107;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.outline-btn:hover {
+  background-color: #FFC107;
+  color: #17141d;
+}
+
+.filled-btn {
+  background-color: #FFC107;
+  border: none;
+  color: #17141d;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.filled-btn:hover {
+  background-color: #e6ac00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .service-card {
+    margin-left: 0 !important;
+    min-width: 200px;
+  }
+  .services-section h2 {
+    font-size: 28px;
+  }
+}
+
 .services-section {
   padding: 80px 10%;
-  background-color: #f9f9f9;
+  background-color: black;
   text-align: start;
   font-family: "Poppins", sans-serif;
   color: #333;
@@ -15,7 +154,7 @@
 }
 
 .services-section h2 .red {
-  color: #e63946;
+  color: #FFC107;
 }
 
 /* Description text */
@@ -42,72 +181,10 @@
   margin-bottom: 60px;
 }
 
-.service-card {
-  background-color: #fff;
-  padding: 25px 20px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-  font-size: 18px;
-  font-weight: 600;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
-}
 
-/* CTA Row */
-.cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
 
-.cta-box {
-  flex: 1;
-  min-width: 300px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-}
 
-.cta-box h3 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
 
-/* Buttons */
-.outline-btn {
-  border: 2px solid #e63946;
-  background-color: transparent;
-  color: #e63946;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
 
-.outline-btn:hover {
-  background-color: #e63946;
-  color: #fff;
-}
 
-.filled-btn {
-  background-color: #e63946;
-  border: none;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.filled-btn:hover {
-  background-color: #cc2e3a;
-}

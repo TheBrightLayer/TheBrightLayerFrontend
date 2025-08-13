@@ -4,7 +4,7 @@
   
   /* Top Banner */
   .footer-top {
-    background: linear-gradient(to bottom, #d72638, #b51f2e);
+    background:#FFC107;
     color: white;
     padding: 60px 8%;
     display: flex;
@@ -31,7 +31,7 @@
   
   /* Bottom Section */
   .footer-bottom {
-    background: #151c29;
+    background: black;
     color: white;
     padding: 50px 8% 30px;
   }

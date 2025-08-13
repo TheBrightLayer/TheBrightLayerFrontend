@@ -1,94 +1,161 @@
 /* General Header Styling */
 .header {
-    font-family: Arial, sans-serif;
-    border-bottom: 1px solid #eee;
-    background-color: #fff;
-  }
+  font-family: Arial, sans-serif;
+  border-bottom: 1px solid #333;
+  background-color: black; /* Dark charcoal */
+  color: #FFFFFF;
+}
+
+/* Top bar */
+.top-bar {
+  font-size: 14px;
+  color: #E0E0E0;
+  padding: 5px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-bar .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #FFC107; /* Bright yellow */
+  border-radius: 50%;
+}
+
+/* Main nav */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: relative;
+}
+
+/* Logo */
+.logo img {
+  height: 40px;
   
-  /* Top bar */
-  .top-bar {
-    font-size: 14px;
-    color: #555;
-    padding: 5px 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+}
+
+/* Hamburger icon (hidden on desktop) */
+.hamburger {
+  font-size: 26px;
+  color: #FFC107;
+  cursor: pointer;
+  display: none;
+  user-select: none;
+  transition: transform 0.3s ease;
+}
+
+.hamburger.open {
+  transform: rotate(90deg); /* Optional animation */
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #FFC107;
+}
+
+/* Right-side buttons */
+.nav-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.outline-btn {
+  border: 1px solid #FFC107;
+  background: transparent;
+  color: #FFC107;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.outline-btn:hover {
+  background: #FFC107;
+  color: #1A1A1A;
+}
+
+.filled-btn {
+  background: #FFC107;
+  color: #1A1A1A;
+  padding: 6px 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.filled-btn:hover {
+  background: #E0A800;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.navbar-logo img {
+  height: 50px; /* keep height same */
+  width: 140px; /* make it wider */
+  object-fit: cover; /* fills width while cropping slightly */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.25s ease, filter 0.25s ease;
+  border-radius: 8px;
+  scale : 1.2;
+}
+
+.navbar-logo img:hover {
+  transform: scale(1.12) rotate(-0.5deg); /* more zoom on hover */
+  filter: drop-shadow(0 4px 6px rgba(255, 215, 0, 0.5));
+}
+
+.navbar-logo:active img {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
   }
-  
-  .top-bar .dot {
-    width: 8px;
-    height: 8px;
-    background-color: red;
-    border-radius: 50%;
-  }
-  
-  /* Main navigation container */
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-  }
-  
-  /* Logo */
-  .logo img {
-    height: 40px;
-  }
-  
-  /* Nav links */
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-  
-  .nav-links a:hover {
-    color: #ff4d4f;
-  }
-  
-  /* Dropdown placeholder (optional for future) */
-  .dropdown {
-    position: relative;
-  }
-  
-  /* Right-side buttons */
+
+  .nav-links,
   .nav-actions {
+    display: none;
+    flex-direction: column;
+    background-color: #1A1A1A;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .nav-links.active,
+  .nav-actions.active {
     display: flex;
-    gap: 12px;
   }
-  
-  .outline-btn {
-    border: 1px solid black;
-    background: transparent;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-  
-  .outline-btn:hover {
-    background: black;
-    color: white;
-  }
-  
-  .filled-btn {
-    background: black;
-    color: white;
-    padding: 6px 14px;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s ease;
-  }
-  
-  .filled-btn:hover {
-    background: #333;
-  }
-  
+
+}

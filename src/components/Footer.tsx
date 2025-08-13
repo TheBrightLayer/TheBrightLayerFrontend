@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Footer.css";
+
 import {
   FaFacebookF,
   FaTwitter,
@@ -21,11 +22,7 @@ const Footer: React.FC = () => {
         <div className="footer-content">
           {/* Logo + Description */}
           <div className="footer-col">
-            <img
-              src="/images/itobuz-logo.png"
-              alt="Itobuz Technologies"
-              className="footer-logo"
-            />
+            <h4>TheBrightLayer</h4>
             <p>
               High level experience in web design and development knowledge,
               producing quality work.
@@ -45,7 +42,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-col">
-            <h4>Kharagpur</h4>
+            <h4>Hyderabad</h4>
             <p>
               STEP IIT Kharagpur,
               <br />
@@ -54,13 +51,12 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-col">
-            <h4>USA Address</h4>
+            <h4>Jamshedpur</h4>
             <p>
               82-21 150th Avenue,
               <br />
               DEL 117 Springfield Gardens,
               <br />
-              NY Zip Code: 11413
             </p>
           </div>
 
@@ -85,14 +81,6 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Awards Row */}
-        <div className="footer-awards">
-          <img src="/images/appfutura.png" alt="Appfutura" />
-          <img src="/images/iso-2015.png" alt="ISO 2015" />
-          <img src="/images/iso-2023.png" alt="ISO 2023" />
-          <img src="/images/clutch.png" alt="Clutch" />
-          <img src="/images/goodfirms.png" alt="GoodFirms" />
-          <img src="/images/topdevelopers.png" alt="Top Developers" />
-        </div>
       </div>
     </footer>
   );
