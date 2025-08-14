@@ -64,7 +64,6 @@ export function Services() {
         {services.map((service, index) => (
           <article className="card" key={index}>
             <header className="card-header">
-              <p>{service.date}</p>
               <h2>{service.title}</h2>
             </header>
 
