@@ -41,7 +41,7 @@ const Contact = () => {
         "service_0slomww", // from EmailJS dashboard
         "template_qv89fff", // from EmailJS dashboard
         formData,
-        " QwUiRNVdw23fTWIrr" // EmailJS public key
+        "QwUiRNVdw23fTWIrr" // EmailJS public key
       )
       .then(
         () => {
