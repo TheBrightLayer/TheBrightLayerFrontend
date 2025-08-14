@@ -38,48 +38,107 @@
     justify-content: center;
   }
   
-  .industry-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    width: 350px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+/* Horizontal scroll container */
+.industry-card-list {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.industry-card-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.industry-card-list::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+/* Card styles */
+.hover-card {
+  flex: 0 0 80%; /* mobile default: 1 card per view */
+  background: #17141d;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.6);
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-10px);
+}
+
+.first-card {
+  z-index: auto;
+}
+
+.hover-card:not(.first-card):focus-within ~ .hover-card,
+.hover-card:not(.first-card):hover ~ .hover-card {
+  transform: none;
+}
+
+.industry-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.industry-content {
+  padding: 20px;
+  color: white;
+}
+
+.industry-content h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.industry-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.industry-content li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.industry-content li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #ffdd33;
+  font-weight: bold;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 600px) {
+  .hover-card {
+    flex: 0 0 calc(50% - 1rem); /* 2 cards per row */
   }
-  
-  .industry-card img {
-    width: 100%;
-    height: auto;
-    display: block;
+  .industries-header h2 {
+    font-size: 3rem;
   }
-  
-  .industry-content {
-    padding: 20px;
+}
+
+@media (min-width: 900px) {
+  .hover-card {
+    flex: 0 0 calc(33.333% - 1rem); /* 3 cards per row */
   }
-  
-  .industry-content h3 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    margin-bottom: 16px;
+}
+
+@media (min-width: 1200px) {
+  .hover-card {
+    flex: 0 0 calc(25% - 1.125rem); /* 4 cards per row */
   }
-  
-  .industry-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .industries-header h2 {
+    font-size: 4rem;
   }
-  
-  .industry-content li {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-  }
-  
-  .industry-content li::before {
-    content: "✔";
-    position: absolute;
-    left: 0;
-    color: #000;
-    font-weight: bold;
-  }
-  
+}

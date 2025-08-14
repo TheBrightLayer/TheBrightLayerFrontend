@@ -1,25 +1,46 @@
-//import React from "react";
 import "../styles/Services.css";
-
+import "../styles/Card.css"; // Copy your card.css styles into here
+import { Link } from "react-router-dom";
 export function Services() {
+  const handleClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const services = [
+    {
+      title: "Enterprise Software",
+      avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=Enterprise",
+      role: "Category",
+      author: "Business Solutions",
+      tags: ["Software", "Enterprise", "B2B"],
+    },
+    {
+      title: "SaaS Application",
+      avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=SaaS",
+      role: "Category",
+      author: "Cloud Services",
+      tags: ["SaaS", "Cloud", "Web"],
+    },
+    {
+      title: "Enterprise Mobility Solutions",
+      avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=Mobility",
+      role: "Category",
+      author: "Mobile Apps",
+      tags: ["Mobility", "iOS", "Android"],
+    },
+    {
+      title: "UX Research",
+      avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=UX",
+      role: "Category",
+      author: "Design Team",
+      tags: ["UX", "Research", "Design"],
+    },
+  ];
+
   return (
     <section className="services-section">
-      {/* Stats Row */}
-      {/* <div className="stats">
-        <div>
-          <span className="stat-number red">14+</span>
-          <span className="stat-label">Years in Business</span>
-        </div>
-        <div>
-          <span className="stat-number red">200+</span>
-          <span className="stat-label">IT Professionals</span>
-        </div>
-        <div>
-          <span className="stat-number red">1500+</span>
-          <span className="stat-label">Projects Done</span>
-        </div>
-      </div> */}
-
       {/* Heading */}
       <h2>
         Services <span className="red">We Offer</span>
@@ -31,9 +52,6 @@ export function Services() {
         to excel in the digital landscape. Our comprehensive services include
         custom website and <a href="#mobile-app">mobile app development</a>, as
         well as <a href="#software-solutions">tailored software solutions</a>.
-        We are committed to delivering outstanding work that exceeds
-        expectations, with a strong emphasis on quality, efficiency, and
-        collaboration.
       </p>
       <p>
         We guarantee to achieve and surpass your business objectives. Our goal
@@ -41,23 +59,61 @@ export function Services() {
         significant value to your business.
       </p>
 
-      {/* Service Cards */}
-      <div className="service-grid">
-        <div className="service-card">Enterprise Software</div>
-        <div className="service-card">SaaS Application</div>
-        <div className="service-card">Enterprise Mobility Solutions</div>
-        <div className="service-card">UX Research</div>
-      </div>
+      {/* Card List */}
+      <section className="card-list">
+        {services.map((service, index) => (
+          <article className="card" key={index}>
+            <header className="card-header">
+              <p>{service.date}</p>
+              <h2>{service.title}</h2>
+            </header>
 
-      {/* Call to Actions */}
+            <div className="card-author">
+              <a className="author-avatar" href="#">
+                <img src={service.avatar} alt={service.author} />
+              </a>
+              <svg className="half-circle" viewBox="0 0 106 57">
+                <path d="M102 4c0 27.1-21.9 49-49 49S4 31.1 4 4"></path>
+              </svg>
+              <div className="author-name">
+                <div className="author-name-prefix">{service.role}</div>
+                {service.author}
+              </div>
+            </div>
+
+            <div className="tags">
+              {service.tags.map((tag, tIndex) => (
+                <a href="#" key={tIndex}>
+                  {tag}
+                </a>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      {/* CTA */}
       <div className="cta-row">
         <div className="cta-box">
           <h3>Didn’t find what you are looking for?</h3>
-          <button className="outline-btn">Explore Now</button>
+          <button className="outline-btn">
+            {" "}
+            <Link to="/contact" className="getting-started-btn">
+              Connect With Us
+            </Link>
+          </button>
         </div>
         <div className="cta-box">
           <h3>Ready to start your Project?</h3>
-          <button className="filled-btn">Let’s Chat</button>
+          <button className="filled-btn">
+            <Link
+              to="/contact"
+              onClick={handleClick}
+              className="getting-started-btn"
+            >
+              Let's Chat
+            </Link>
+          </button>
         </div>
       </div>
     </section>

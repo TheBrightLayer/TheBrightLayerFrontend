@@ -1,161 +1,285 @@
-/* General Header Styling */
-.header {
-  font-family: Arial, sans-serif;
-  border-bottom: 1px solid #333;
-  background-color: black; /* Dark charcoal */
-  color: #FFFFFF;
-}
-
-/* Top bar */
-.top-bar {
-  font-size: 14px;
-  color: #E0E0E0;
-  padding: 5px 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.top-bar .dot {
-  width: 8px;
-  height: 8px;
-  background-color: #FFC107; /* Bright yellow */
-  border-radius: 50%;
-}
-
-/* Main nav */
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
+/* ===== HERO SECTION ===== */ 
+.hero-section {
   position: relative;
-}
+  width: 100%;
+  height: 0vh;
+  overflow: hidden;
 
-/* Logo */
-.logo img {
-  height: 40px;
+ 
   
 }
 
-/* Hamburger icon (hidden on desktop) */
-.hamburger {
-  font-size: 26px;
-  color: #FFC107;
-  cursor: pointer;
-  display: none;
-  user-select: none;
+/* Background Video */
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+}
+
+/* Dark overlay for better text readability */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: relative; /* logo scrolls with page */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 50px;
+  z-index: 1000;
+}
+
+/* Logo container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  scale: 2;
+}
+
+.brand-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 15px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+/* ===== Pill Navigation Styling ===== */
+.nav-pill {
+  position: fixed; /* pill stays fixed */
+  top: 30px;
+  right: 50px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+  padding: 0 50px;
+  background-color: #fff;
+  height: 80px;
+  border-radius: 80px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  z-index: 1100;
+  transition: right 0.3s ease;
+}
+
+/* Navigation links inside pill */
+.nav-link {
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: 20px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00e5ff;
+}
+
+.hover-card:first-child {
+  transform: translateY(-10px);
   transition: transform 0.3s ease;
 }
 
-.hamburger.open {
-  transform: rotate(90deg); /* Optional animation */
-}
-
-/* Nav links */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-links a {
+/* Contact button inside pill */
+.contact-btn {
+  background: #00e5ff;
+  color: black;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 600;
   text-decoration: none;
-  color: #FFFFFF;
-  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.contact-btn:hover {
+  background: #00bcd4;
+}
+
+/* ===== Hero Text ===== */
+.hero-text {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.hero-text h1 span {
+  color: #00e5ff;
+}
+
+.hero-text p {
+  font-size: 18px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ===== HAMBURGER MENU ===== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  z-index: 1110;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: black;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+.hero-section {
+
+   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  z-index: 1000;
+}
+  .nav-pill {
+    position: fixed;
+    top: 100px;
+    right: -250px;
+    flex-direction: column;
+    width: 174px;
+    height : 90px;
+    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .contact-btn {
+ 
+  }
+
+  .nav-pill.active {
+    right: 20px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+  .hero-section {
+    height: 20vh;
+  }
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+/* The dropdown menu itself */
+.services-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: flex;
+  background: #fff;
+  color: #000;
+  padding: 20px 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  z-index: 10;
+  min-width: 600px;
+  gap: 40px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Each column in the dropdown */
+.dropdown-column h4 {
+  color: #e53945;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.dropdown-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-column li {
+  padding: 4px 0;
+  font-size: 0.9rem;
   transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
-  color: #FFC107;
+.dropdown-column li:hover {
+       background: linear-gradient(90deg,#ff8a00,#e52e71);
+    text-shadow: none;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
-/* Right-side buttons */
-.nav-actions {
-  display: flex;
-  gap: 12px;
+.simple-dropdown {
+  position: absolute;
+  background: white;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  top: 100%;
+  left: 0;
+  transform: translateY(5px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 10;
 }
-
-.outline-btn {
-  border: 1px solid #FFC107;
-  background: transparent;
-  color: #FFC107;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.outline-btn:hover {
-  background: #FFC107;
-  color: #1A1A1A;
-}
-
-.filled-btn {
-  background: #FFC107;
-  color: #1A1A1A;
-  padding: 6px 14px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s ease;
-}
-
-.filled-btn:hover {
-  background: #E0A800;
-}
-
-.navbar-logo {
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: transparent;
+.dropdown {
+  position: relative;
   cursor: pointer;
 }
 
-.navbar-logo img {
-  height: 50px; /* keep height same */
-  width: 140px; /* make it wider */
-  object-fit: cover; /* fills width while cropping slightly */
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-  transition: transform 0.25s ease, filter 0.25s ease;
-  border-radius: 8px;
-  scale : 1.2;
-}
 
-.navbar-logo img:hover {
-  transform: scale(1.12) rotate(-0.5deg); /* more zoom on hover */
-  filter: drop-shadow(0 4px 6px rgba(255, 215, 0, 0.5));
-}
-
-.navbar-logo:active img {
-  transform: scale(1.02);
-  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links,
-  .nav-actions {
-    display: none;
-    flex-direction: column;
-    background-color: #1A1A1A;
-    position: absolute;
-    top: 65px;
-    left: 0;
-    width: 100%;
-    padding: 15px 0;
-    text-align: center;
-    gap: 15px;
-  }
-
-  .nav-links.active,
-  .nav-actions.active {
-    display: flex;
-  }
-
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -2,6 +2,7 @@
   width: 80%;
   padding: 80px 10%;
   background-color: black;
+  padding-top: 30vh;
 }
 
 .about-row {
@@ -129,6 +130,11 @@
   .about-row {
     flex-direction: column;
   }
+  .hero-logo { 
+    display: none;
+  }
+
+
 
   .about-title h1 {
     font-size: 3rem;

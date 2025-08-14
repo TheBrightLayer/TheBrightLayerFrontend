@@ -1,37 +1,50 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Header } from "./components/Header";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import Header from "./components/Header";
 import { Hero } from "./components/Hero";
+import { VideoShowcase } from "./components/VideoShowCase";
 import { Services } from "./components/Services";
 import Footer from "./components/Footer";
-import { VideoShowcase } from "./components/VideoShowCase";
 import ServiceStack from "./components/ServiceStack";
 import "./components/App.css";
 
-// Example page components
-//import { About } from "./pages/About";
-import  About  from "./pages/About";
+import About from "./pages/About";
 import Contact from "./pages/Contact";
+
+function AppContent() {
+  const location = useLocation();
+  const isHome = location.pathname === "/"; // Only show Hero on home page
+
+  return (
+    <>
+      <Header />
+      {isHome && (
+        <>
+          <Hero />
+          <VideoShowcase />
+          <Services />
+          <ServiceStack />
+        </>
+      )}
+      {!isHome && (
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      )}
+      <Footer />
+    </>
+  );
+}
 
 function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Hero />
-              <VideoShowcase />
-              <Services />
-              <ServiceStack />
-            </>
-          }
-        />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-      <Footer />
+      <AppContent />
     </Router>
   );
 }
