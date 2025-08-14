@@ -3,7 +3,6 @@ import "../styles/Card.css"; // Copy your card.css styles into here
 import { Link } from "react-router-dom";
 
 interface Service {
-  date: string;
   title: string;
   avatar: string;
   role: string;
@@ -21,7 +20,6 @@ export function Services() {
 
   const services: Service[] = [
     {
-      date: "2025-08-15",
       title: "Enterprise Software",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=Enterprise",
       role: "Category",
@@ -29,7 +27,6 @@ export function Services() {
       tags: ["Software", "Enterprise", "B2B"]
     },
     {
-      date: "2025-08-15",
       title: "SaaS Application",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=SaaS",
       role: "Category",
@@ -37,7 +34,6 @@ export function Services() {
       tags: ["SaaS", "Cloud", "Web"]
     },
     {
-      date: "2025-08-15",
       title: "Enterprise Mobility Solutions",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=Mobility",
       role: "Category",
@@ -45,7 +41,6 @@ export function Services() {
       tags: ["Mobility", "iOS", "Android"]
     },
     {
-      date: "2025-08-15",
       title: "UX Research",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=UX",
       role: "Category",
