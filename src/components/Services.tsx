@@ -9,33 +9,37 @@ export function Services() {
     });
   };
   const services = [
-    {
+    {    date: "2025-08-15", // <-- add this
+
       title: "Enterprise Software",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=Enterprise",
       role: "Category",
       author: "Business Solutions",
-      tags: ["Software", "Enterprise", "B2B"],
+      tags: ["Software", "Enterprise", "B2B"]
     },
-    {
+    {      date: "2025-08-15", // <-- add this
+
       title: "SaaS Application",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=SaaS",
       role: "Category",
       author: "Cloud Services",
-      tags: ["SaaS", "Cloud", "Web"],
+      tags: ["SaaS", "Cloud", "Web"]
     },
-    {
+    {      date: "2025-08-15", // <-- add this
+
       title: "Enterprise Mobility Solutions",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=Mobility",
       role: "Category",
       author: "Mobile Apps",
-      tags: ["Mobility", "iOS", "Android"],
+      tags: ["Mobility", "iOS", "Android"]
     },
-    {
+    {    date: "2025-08-15", // <-- add this
+
       title: "UX Research",
       avatar: "https://api.dicebear.com/6.x/identicon/svg?seed=UX",
       role: "Category",
       author: "Design Team",
-      tags: ["UX", "Research", "Design"],
+      tags: ["UX", "Research", "Design"]
     },
   ];
 
