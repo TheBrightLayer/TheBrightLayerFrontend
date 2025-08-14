@@ -38,10 +38,10 @@ const Contact = () => {
 
     emailjs
       .send(
-        "YOUR_SERVICE_ID", // from EmailJS dashboard
-        "YOUR_TEMPLATE_ID", // from EmailJS dashboard
+        "service_0slomww", // from EmailJS dashboard
+        "template_qv89fff", // from EmailJS dashboard
         formData,
-        "YOUR_PUBLIC_KEY" // EmailJS public key
+        " QwUiRNVdw23fTWIrr" // EmailJS public key
       )
       .then(
         () => {
