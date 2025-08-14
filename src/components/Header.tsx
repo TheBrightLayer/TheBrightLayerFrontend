@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import logo from "../assets/BrightLayerLogo.png"; // Import the logo
-
+import logo from "../assets/BrightLayerLogo.png";
 import "../styles/Header.css";
 
 export function Header() {
@@ -12,18 +12,12 @@ export function Header() {
 
   return (
     <header className="header">
-      {/* Top bar */}
-      <div className="top-bar">
-        {/* Optional announcement */}
-        {/* <span className="dot"></span>
-        <span>Celebrating 15 Years of Success, Grandeur & Togetherness</span> */}
-      </div>
-
-      {/* Main navigation */}
       <div className="nav-container">
         {/* Logo */}
         <div className="navbar-logo">
-          <img src={logo} alt="BrightLayer" />
+          <Link to="/">
+            <img src={logo} alt="BrightLayer" />
+          </Link>
         </div>
 
         {/* Hamburger Icon */}
@@ -36,27 +30,26 @@ export function Header() {
 
         {/* Menu links */}
         <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-          <a href="#about">About Us</a>
+          <Link to="/about">About Us</Link>
           <div className="dropdown">
-            <a href="#services">Services ▾</a>
+            <Link to="/services">Services ▾</Link>
           </div>
           <div className="dropdown">
-            <a href="#industry">Industry ▾</a>
+            <Link to="/industry">Industry ▾</Link>
           </div>
-          <a href="#contact">Contact</a>
-          <a href="#blog">Blog</a>
-          <a href="#careers">Careers</a>
+          <Link to="/contact">Contact</Link>
+          <Link to="/blog">Blog</Link>
+          <Link to="/careers">Careers</Link>
         </nav>
 
         {/* Right-side buttons */}
         <div className={`nav-actions ${menuOpen ? "active" : ""}`}>
-          <button className="outline-btn">Our Process</button>
-          <button
-            className="filled-btn"
-            onClick={() => (window.location.href = "/contact")}
-          >
-            Let’s Talk
-          </button>
+          <Link to="/process">
+            <button className="outline-btn">Our Process</button>
+          </Link>
+          <Link to="/contact">
+            <button className="filled-btn">Let’s Talk</button>
+          </Link>
         </div>
       </div>
     </header>
