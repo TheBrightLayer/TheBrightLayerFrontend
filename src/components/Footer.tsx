@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/Footer.css";
-
+import { Link } from "react-router-dom";
 import {
   FaFacebookF,
   FaTwitter,
@@ -9,12 +9,28 @@ import {
 } from "react-icons/fa";
 
 const Footer: React.FC = () => {
+  const handleClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer className="footer">
       {/* Top Banner */}
       <div className="footer-top">
         <h2>Build something amazing with us</h2>
-        <button className="expert-btn">TALK TO OUR EXPERT</button>
+        <button className="expert-btn">
+          {" "}
+          <Link
+            to="/contact"
+            onClick={handleClick}
+            className="getting-started-btn"
+          >
+            TALK TO OUR EXPERT
+          </Link>
+        </button>
       </div>
 
       {/* Bottom Section */}

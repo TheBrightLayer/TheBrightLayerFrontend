@@ -28,6 +28,33 @@ const industries = [
     title: "Hotels & Restaurant",
     points: ["POS System", "Table Management", "Room Service Automation"],
   },
+  {
+    img: logo1,
+    title: "Finance & Banking",
+    points: [
+      "Mobile Banking",
+      "Fraud Detection",
+      "Investment Portfolio Management",
+    ],
+  },
+  {
+    img: logo2,
+    title: "E-Commerce",
+    points: [
+      "Custom Online Store",
+      "Order Tracking",
+      "Payment Gateway Integration",
+    ],
+  },
+  {
+    img: logo3,
+    title: "Education & E-Learning",
+    points: [
+      "LMS Platforms",
+      "Virtual Classrooms",
+      "Student Progress Tracking",
+    ],
+  },
 ];
 
 const ServiceStack: React.FC = () => {
@@ -40,19 +67,24 @@ const ServiceStack: React.FC = () => {
         <p>
           TheBrightLayer caters to diverse industries such as healthcare,
           finance, and manufacturing, leveraging our Custom Web & Mobile App
-          Development Services to deliver tailored solutions for each sector’s
+          Development Services to deliver tailored solutions for each sector
           distinct requirements. Whether you need a{" "}
           <a href="#">custom web application</a>, a mobile app, or both, we have
-          the expertise to bring your ideas to life. Come together with us, and
-          let’s work towards accomplishing your industry-specific objectives as
-          a team.
+          the expertise to bring your ideas to life.
         </p>
       </div>
 
-      <div className="industries-grid">
+      <div className="industry-card-list">
         {industries.map((item, index) => (
-          <div key={index} className="industry-card">
-            <img src={item.img} alt={item.title} />
+          <div
+            className={`industry-card hover-card ${
+              index === 0 ? "first-card" : ""
+            }`}
+            key={index}
+          >
+            <div className="industry-image">
+              <img src={item.img} alt={item.title} />
+            </div>
             <div className="industry-content">
               <h3>{item.title}</h3>
               <ul>
