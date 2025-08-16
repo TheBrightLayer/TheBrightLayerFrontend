@@ -48,23 +48,23 @@ const Footer: React.FC = () => {
           {/* Address Columns */}
           <div className="footer-col">
             <h4>Kolkata</h4>
-            <p>
+{/*             <p>
               STP Building, DN 24 Block,
               <br />
               Salt Lake, Sec-V,
               <br />
               Kolkata-700091
-            </p>
+            </p> */}
           </div>
 
           <div className="footer-col">
             <h4>Jamshedpur</h4>
-            <p>
+{/*             <p>
               82-21 150th Avenue,
               <br />
               DEL 117 Springfield Gardens
               <br />
-            </p>
+            </p> */}
           </div>
 
           {/* Social Media */}
