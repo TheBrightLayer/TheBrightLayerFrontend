@@ -115,6 +115,7 @@ const Careers = () => {
   // Form state
   const [formData, setFormData] = useState({
     name: "",
+
     email: "",
     phone: "",
     resume: "",
@@ -174,7 +175,6 @@ const Careers = () => {
           setStatus("Message sent successfully!");
           setFormData({
             name: "",
-            company: "",
             email: "",
             phone: "",
             message: "",
@@ -294,13 +294,6 @@ const Careers = () => {
               value={formData.name}
               onChange={handleChange}
               required
-            />
-            <input
-              type="text"
-              name="company"
-              placeholder="Resume (link)"
-              value={formData.company}
-              onChange={handleChange}
             />
           </div>
 
