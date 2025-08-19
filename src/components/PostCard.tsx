@@ -16,7 +16,12 @@ const PostCard: React.FC<Props> = ({ post, index }) => {
       whileTap={{ scale: 0.99 }}
     >
       <Link to={`/blog/${post.slug}`} aria-label={post.title}>
-        <img className="cover" src={post.cover} alt={post.title} loading="lazy" />
+        <img
+          className="cover"
+          src={post.cover}
+          alt={post.title}
+          loading="lazy"
+        />
         <div className="body">
           <div className="meta">
             <time dateTime={post.date}>
@@ -32,7 +37,9 @@ const PostCard: React.FC<Props> = ({ post, index }) => {
           <h3 className="title">{post.title}</h3>
           <div className="tags">
             {post.tags.map((t) => (
-              <span key={t} className="tag">#{t}</span>
+              <span key={t} className="tag">
+                #{t}
+              </span>
             ))}
           </div>
         </div>
