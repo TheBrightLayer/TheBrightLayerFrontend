@@ -5,10 +5,9 @@ import "../styles/Careers.css";
 const Careers: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
-
     email: "",
     phone: "",
-    company: "", // ✅ added so it won’t break
+    company: "", // ✅ keeping it for resume link
     position: "",
     message: "",
   });
@@ -16,45 +15,28 @@ const Careers: React.FC = () => {
   const [status, setStatus] = useState("");
   const [scale, setScale] = useState(1);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus("Submitting...");
 
-    setStatus("Sending...");
-
-    emailjs
-      .send(
-        "service_0slomww", // from EmailJS dashboard
-        "template_qv89fff", // from EmailJS dashboard
-        formData,
-        "QwUiRNVdw23fTWIrr" // EmailJS public key
-      )
-      .then(
-        () => {
-          setStatus("Message sent successfully!");
-          setFormData({
-            name: "",
-            email: "",
-            phone: "",
-            message: "",
-          });
-        },
-        (error) => {
-          console.error(error);
-          setStatus("Failed to send. Please try again later.");
-        }
-      );
-  };
-
-  // Handle form
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
+    // simulate API call
+    setTimeout(() => {
+      setStatus("Application submitted successfully ✅");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        position: "",
+        message: "",
+      });
+    }, 1500);
   };
 
   return (
@@ -99,21 +81,17 @@ const Careers: React.FC = () => {
           />
         </div>
 
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-row">
-            <input
-              type="text"
-              name="name"
-              placeholder="Name*"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
         </div>
-
 
         <div className="form-group">
           <label htmlFor="company">Resume (link)</label>
