@@ -18,7 +18,7 @@ const Careers: React.FC = () => {
     phone: "",
     resume: "",
     message: "",
-    company: "", // ✅ Added here as well
+    company: "",
   });
 
   const handleChange = (
@@ -41,7 +41,7 @@ const Careers: React.FC = () => {
       phone: "",
       resume: "",
       message: "",
-      company: "", // ✅ Reset company on submit
+      company: "",
     });
   };
 
@@ -128,4 +128,12 @@ const Careers: React.FC = () => {
           ></textarea>
         </div>
 
-        <
+        <button type="submit" className="apply-btn">
+          Submit Application
+        </button>
+      </form>
+    </section>
+  );
+};
+
+export default Careers;
