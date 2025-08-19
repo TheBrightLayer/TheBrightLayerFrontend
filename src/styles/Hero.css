@@ -1,9 +1,9 @@
 /* Load Inter font for modern AI-company look */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap'); */
 
 /* Global font */
 body {
-  font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif; */
   margin: 0;
   padding: 0;
   background-color: #000; /* optional for dark background */
@@ -31,15 +31,26 @@ body {
   pointer-events: none;        /* keep clicks on your buttons working */
 }
 
-/* Dark overlay for contrast */
+/* Dark overlay + animated gradient for depth */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 1;
+  background: linear-gradient(135deg, rgba(0,0,0,0.65), rgba(0,0,0,0.45));
+  
+  
+ 
 }
 
-/* Your original content on top of overlay */
+.hero-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,193,7,0.15), rgba(255,193,7,0));
+  animation: gradientShift 8s infinite alternate ease-in-out;
+  mix-blend-mode: overlay;
+}
+
+/* Content */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -50,21 +61,35 @@ body {
   margin: 0 auto;
   gap: 50px;
   padding: 60px 20px;
+  animation: fadeUp 1.5s ease forwards;
+  opacity: 0;
 }
 
-/* Heading styles (modern AI-company style) */
+/* Heading styles */
 .hero-heading h1 {
-  font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 56px;
-  font-weight: 500; /* lighter than bold */
+  font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.02em; /* slightly tighter */
+  letter-spacing: -0.02em;
   margin: 0;
-  color: #fff; /* white text */
+  color: #fff;
 }
 
 .highlight-red {
-  color: whitesmoke;
+  color: #FFC107; /* Brand highlight */
+  position: relative;
+}
+
+.highlight-red::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #FFC107;
+  border-radius: 2px;
+  animation: underlineGrow 1.5s ease forwards;
 }
 
 /* Right description */
@@ -73,28 +98,33 @@ body {
 }
 
 .hero-description p {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.6;
   margin-bottom: 20px;
-  color: whitesmoke;
+  color: #e6e6e6;
 }
 
 /* Button */
 .black-btn {
-  background-color: black;
-  color: #fff;
-  padding: 14px 28px;
+  background: #FFC107;
+  color: #000;
+  padding: 14px 32px;
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 18px;
   text-transform: uppercase;
-  transition: background 0.3s ease;
+  border-radius: 50px;
+  box-shadow: 0 0 20px rgba(255,193,7,0.6);
+  transition: all 0.3s ease;
 }
 
 .black-btn:hover {
-  background-color: #333;
+  background: #ffda47;
+  box-shadow: 0 0 30px rgba(255,193,7,0.9);
+  transform: translateY(-3px) scale(1.05);
 }
+
 .hero-logo {
   position: absolute;
   top: 20px;
@@ -103,19 +133,44 @@ body {
 }
 
 .hero-logo img {
- margin-top: -10px;
-    height: 140px;
-    width: 162px;
-    scale: 1.4;
+  margin-top: -10px;
+  height: 140px;
+  width: 162px;
+  scale: 1.4;
 }
+
+/* Link inside button */
 .getting-started-btn {
-  color: white; /* Or whatever you want */
-  text-decoration: none; /* Remove underline */
+  color: black;
+  text-decoration: none;
 }
 
 .getting-started-btn:visited {
-  color: white; /* Prevent purple visited state */
+  color: black;
 }
+
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientShift {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+
+@keyframes underlineGrow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero-content {
@@ -128,5 +183,14 @@ body {
   .hero-heading h1 {
     font-size: 36px;
     line-height: 1.2;
+  }
+
+  .hero-description p {
+    font-size: 18px;
+  }
+
+  .black-btn {
+    font-size: 16px;
+    padding: 12px 26px;
   }
 }

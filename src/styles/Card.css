@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap'); */
 
 body {
     padding: 0;
@@ -83,7 +83,7 @@ a {
     cursor: pointer;
 }
 
-.card-header h2:hover {
+.card-header h4:hover {
     background: linear-gradient(90deg,#ff8a00,#e52e71);
     text-shadow: none;
     -webkit-text-fill-color: transparent;

@@ -2,12 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
 
 
-.services-section p a {
+.services-sectionx p a {
   color: #ff8a00;
   text-decoration: none;
+ 
 }
 
-.services-section p a:hover {
+.services-sectionx p a:hover {
   text-decoration: underline;
 }
 
@@ -133,12 +134,13 @@
     margin-left: 0 !important;
     min-width: 200px;
   }
-  .services-section h2 {
+  .services-sectionx h2 {
     font-size: 28px;
   }
 }
 
-.services-section {
+.services-sectionx {
+  width:80%;
   padding: 80px 10%;
   background-color: black;
   text-align: start;
@@ -147,29 +149,29 @@
 }
 
 /* Heading */
-.services-section h2 {
-  font-size: 64px;
+.services-sectionx h2 {
+   font-size: 64px; 
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.services-section h2 .red {
+.services-sectionx h2 .red {
   color: #FFC107;
 }
 
 /* Description text */
-.services-section p {
+.services-sectionx p {
   font-size: 24px;
   color: #555;
   line-height: 1.6;
 }
 
-.services-section p a {
+.services-sectionx p a {
   color: #e63946;
   text-decoration: none;
 }
 
-.services-section p a:hover {
+.services-sectionx p a:hover {
   text-decoration: underline;
 }
 
@@ -180,6 +182,8 @@
   gap: 30px;
   margin-bottom: 60px;
 }
+
+
 
 
 

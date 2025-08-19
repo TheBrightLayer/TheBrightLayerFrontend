@@ -7,8 +7,8 @@ import logo from "../assets/BrightLayerLogo.png";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [careersOpen, setCareersOpen] = useState(false);
+  // const [servicesOpen, setServicesOpen] = useState(false);
+  // const [careersOpen, setCareersOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
 
   return (
@@ -46,9 +46,15 @@ const Header = () => {
           >
             About
           </Link>
-
+          <Link
+            to="/service"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            Services
+          </Link>
           {/* Services with hover dropdown */}
-          <div
+          {/* <div
             className="nav-link dropdown"
             onMouseEnter={() => setServicesOpen(true)}
             onMouseLeave={() => setServicesOpen(false)}
@@ -93,21 +99,16 @@ const Header = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Careers hover message */}
-          <div
-            className="nav-link dropdown"
-            onMouseEnter={() => setCareersOpen(true)}
-            onMouseLeave={() => setCareersOpen(false)}
+          <Link
+            to="/careers"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
           >
             Careers
-            {careersOpen && (
-              <div className="simple-dropdown">No jobs as of now</div>
-            )}
-          </div>
-
-          {/* Blog hover message */}
+          </Link>
           <div
             className="nav-link dropdown"
             onMouseEnter={() => setBlogOpen(true)}
