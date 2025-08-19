@@ -2,65 +2,65 @@
 import React, { useState } from "react";
 import "../styles/Careers.css";
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  resume: string;
-  message: string;
-  company: string; // ✅ Added company field
-}
-
 const Careers: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    resume: "",
+    company: "", // ✅ added so it won’t break
+    position: "",
     message: "",
-    company: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const [status, setStatus] = useState("");
+  const [scale, setScale] = useState(1);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Application submitted successfully!");
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      resume: "",
-      message: "",
-      company: "",
-    });
+    setStatus("Submitting...");
+
+    // simulate API call
+    setTimeout(() => {
+      setStatus("Application submitted successfully ✅");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        position: "",
+        message: "",
+      });
+    }, 1500);
   };
 
   return (
-    <section className="careers-page">
-      <h2>Join Our Team</h2>
-      <p>
-        At Bright Layer, we believe in innovation, growth, and building a
-        brighter future together. If you’re passionate about technology and
-        creating impact, we’d love to hear from you.
-      </p>
+    <section className="careers">
+      <div className="careers-header">
+        <h1>Join Our Team</h1>
+        <p>
+          At BrightLayer, we’re always looking for talented individuals who are
+          passionate about innovation and technology. Explore exciting
+          opportunities and grow with us!
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="career-form">
+      <form
+        className="careers-form"
+        onSubmit={handleSubmit}
+        style={{ transform: `scale(${scale})` }} // ✅ fixed template string
+        onMouseEnter={() => setScale(1.02)}
+        onMouseLeave={() => setScale(1)}
+      >
         <div className="form-group">
           <label htmlFor="name">Full Name</label>
           <input
             type="text"
-            name="name"
             id="name"
+            name="name"
             value={formData.name}
             onChange={handleChange}
             required
@@ -68,23 +68,11 @@ const Careers: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="company">Current Company</label>
-          <input
-            type="text"
-            name="company"
-            id="company"
-            value={formData.company}
-            onChange={handleChange}
-            placeholder="Your current or last company"
-          />
-        </div>
-
-        <div className="form-group">
           <label htmlFor="email">Email Address</label>
           <input
             type="email"
-            name="email"
             id="email"
+            name="email"
             value={formData.email}
             onChange={handleChange}
             required
@@ -95,8 +83,8 @@ const Careers: React.FC = () => {
           <label htmlFor="phone">Phone Number</label>
           <input
             type="tel"
-            name="phone"
             id="phone"
+            name="phone"
             value={formData.phone}
             onChange={handleChange}
             required
@@ -104,33 +92,45 @@ const Careers: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="resume">Resume Link</label>
+          <label htmlFor="company">Resume (link)</label>
           <input
-            type="url"
-            name="resume"
-            id="resume"
-            value={formData.resume}
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
             onChange={handleChange}
-            placeholder="Paste Google Drive / LinkedIn / Portfolio link"
+            placeholder="Paste your resume link here"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="message">Why do you want to join us?</label>
-          <textarea
-            name="message"
-            id="message"
-            rows={5}
-            value={formData.message}
+          <label htmlFor="position">Position</label>
+          <input
+            type="text"
+            id="position"
+            name="position"
+            value={formData.position}
             onChange={handleChange}
             required
-          ></textarea>
+          />
         </div>
 
-        <button type="submit" className="apply-btn">
+        <div className="form-group">
+          <label htmlFor="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit" className="submit-btn">
           Submit Application
         </button>
+
+        {status && <p className="status">{status}</p>}
       </form>
     </section>
   );
