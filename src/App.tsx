@@ -5,15 +5,19 @@ import {
   useLocation,
 } from "react-router-dom";
 import Header from "./components/Header";
+import ServicesPage from "./pages/ServicesPage";
 import { Hero } from "./components/Hero";
 import { VideoShowcase } from "./components/VideoShowCase";
 import { Services } from "./components/Services";
 import Footer from "./components/Footer";
 import ServiceStack from "./components/ServiceStack";
+
 import "./components/App.css";
 
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Careers from "./pages/Careers";
+import Blogs from "./pages/Blogs";
 
 function AppContent() {
   const location = useLocation();
@@ -34,6 +38,9 @@ function AppContent() {
         <Routes>
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/service" element={<ServicesPage />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/blogs" element={<Blogs />} />
         </Routes>
       )}
       <Footer />
