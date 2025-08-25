@@ -109,7 +109,15 @@ const Header = () => {
           >
             Careers
           </Link>
-          <div
+
+          <Link
+            to="/blogs"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            Blogs
+          </Link>
+          {/* <div
             className="nav-link dropdown"
             onMouseEnter={() => setBlogOpen(true)}
             onMouseLeave={() => setBlogOpen(false)}
@@ -118,7 +126,7 @@ const Header = () => {
             {blogOpen && (
               <div className="simple-dropdown">Feature coming soon</div>
             )}
-          </div>
+          </div> */}
 
           <Link
             to="/contact"
