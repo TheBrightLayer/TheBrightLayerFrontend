@@ -8,7 +8,7 @@ import AnimatedNews from "../components/AnimatedNews";
 import logo from "../assets/BrightLayerLogo.png";
 
 import { Mail, Search, Settings, User } from "react-feather";
-import "../styles/blogs.css";
+import "../styles/Blogs.css";
 
 interface Blog {
   slug: string;
