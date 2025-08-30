@@ -71,7 +71,7 @@
 }
 
 /* ===== Blog Content ===== */
-.blog-content {
+/* .blog-content {
   flex: 1;
   margin-top: 15vh;
   max-width: 750px;
@@ -80,7 +80,7 @@
   border-radius: 15px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   transition: transform 0.3s ease;
-}
+} */
 
 /* Category Badge */
 .category-badge {
@@ -410,7 +410,7 @@
 
   .blog-content {
     margin-top: 15vh;
-    padding: 30px 25px;
+
   }
 }
 
@@ -515,4 +515,61 @@
     font-size: 0.95rem;
   }
 }
+
+/* Fullscreen centered loader */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;       /* take full screen height */
+  width: 100%;         
+  gap: 12px;
+  font-family: "Inter", sans-serif;
+  color: #444;
+}
+
+/* ===== Minimal Hourglass ===== */
+.hourglass {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  position: relative;
+}
+
+.hourglass::before,
+.hourglass::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+}
+
+.hourglass::before {
+  top: 0;
+  border-bottom: 20px solid #f6c700; /* top sand */
+  animation: topSand 2s infinite;
+}
+
+.hourglass::after {
+  bottom: 0;
+  border-top: 20px solid #f6c700; /* bottom sand */
+  animation: bottomSand 2s infinite;
+}
+
+/* ===== Sand Animations ===== */
+@keyframes topSand {
+  0%   { border-bottom-width: 20px; }
+  50%  { border-bottom-width: 0px; }
+  100% { border-bottom-width: 20px; }
+}
+
+@keyframes bottomSand {
+  0%   { border-top-width: 0px; }
+  50%  { border-top-width: 20px; }
+  100% { border-top-width: 0px; }
+}
+
 

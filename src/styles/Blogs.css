@@ -136,7 +136,7 @@
 @media (max-width: 600px) {
   .navbar-right {
     position: fixed;
-    margin-top: 95vh;
+    margin-top: 85vh;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
@@ -290,10 +290,11 @@
     display: flex;
     margin-top: 0vh;
     margin-bottom: 25px;
+    margin-left: 22px;
     flex-wrap: nowrap;
     overflow-x: hidden;
     white-space: nowrap;
-    width: 100vw;
+    
     gap: 0px;
     padding: 10px;
     border-radius: 8px;
@@ -1056,3 +1057,6 @@ padding: 0.5rem 1rem;
 .delete-btn:hover {
   background: #b22222;
 }
+
+
+

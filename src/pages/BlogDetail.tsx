@@ -22,7 +22,8 @@ interface Blog {
 }
 
 // 👇 Use environment variable for API
-const API_BASE = import.meta.env.VITE_API_URL || "https://thebrightlayerbackend.onrender.com";
+const API_BASE =
+  import.meta.env.VITE_API_URL || "https://thebrightlayerbackend.onrender.com";
 
 const BlogDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -65,7 +66,15 @@ const BlogDetail: React.FC = () => {
     fetchRecentBlogs();
   }, [slug]);
 
-  if (loading) return <p className="loading">Loading blog...</p>;
+  // if (loading) return <p className="loading">Loading blog...</p>;
+  if (loading)
+    return (
+      <div className="loading">
+        <div className="hourglass"></div>
+        <p>Loading</p>
+      </div>
+    );
+
   if (error) return <p className="error">{error}</p>;
   if (!blog) return <p className="not-found">Blog not found.</p>;
 
