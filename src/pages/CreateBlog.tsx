@@ -9,33 +9,31 @@ import {
 import type { Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import "../styles/CreateBlog.css"; // keep your styles together
+import { withHtml } from "../data/withHtml"; // 👈 our paste plugin
+import "../styles/CreateBlog.css";
 
-// ---------- Config ----------
 const CATEGORIES = [
   "Technology",
-  "Cricket",
-  "Movies",
+  "Sports",
+  "Entertainment",
   "Politics",
-  "Business",
+  "Finance",
   "Lifestyle",
 ];
 
 const INITIAL_VALUE: Descendant[] = [
   {
     type: "paragraph",
-    children: [{ text: "Start writing your awesome blog here..." }],
+    children: [{ text: "" }],
   },
 ];
 
 // ---------- Mark helpers ----------
 type Mark = "bold" | "italic" | "underline" | "code";
-
 const isMarkActive = (editor: Editor, format: Mark) => {
   const marks = Editor.marks(editor);
   return marks ? marks[format] === true : false;
 };
-
 const toggleMark = (editor: Editor, format: Mark) => {
   const active = isMarkActive(editor, format);
   if (active) Editor.removeMark(editor, format);
@@ -53,9 +51,7 @@ type Block =
   | "list-item"
   | "link"
   | "image";
-
 const LIST_TYPES: Block[] = ["bulleted-list", "numbered-list"];
-
 const isBlockActive = (editor: Editor, format: Block) => {
   const [match] = Editor.nodes(editor, {
     match: (n) =>
@@ -65,11 +61,9 @@ const isBlockActive = (editor: Editor, format: Block) => {
   });
   return !!match;
 };
-
 const toggleBlock = (editor: Editor, format: Block) => {
   const isActive = isBlockActive(editor, format);
   const isList = LIST_TYPES.includes(format);
-
   Transforms.unwrapNodes(editor, {
     match: (n) =>
       !Editor.isEditor(n) &&
@@ -77,10 +71,8 @@ const toggleBlock = (editor: Editor, format: Block) => {
       LIST_TYPES.includes((n as any).type),
     split: true,
   });
-
   const newType: Block = isActive ? "paragraph" : isList ? "list-item" : format;
   Transforms.setNodes(editor, { type: newType } as any);
-
   if (!isActive && isList) {
     const block = { type: format, children: [] } as any;
     Transforms.wrapNodes(editor, block);
@@ -95,7 +87,6 @@ const isLinkActive = (editor: Editor) =>
       SlateElement.isElement(n) &&
       (n as any).type === "link",
   }).next().value;
-
 const unwrapLink = (editor: Editor) => {
   Transforms.unwrapNodes(editor, {
     match: (n) =>
@@ -104,31 +95,31 @@ const unwrapLink = (editor: Editor) => {
       (n as any).type === "link",
   });
 };
-
 const wrapLink = (editor: Editor, url: string) => {
   if (isLinkActive(editor)) unwrapLink(editor);
-
   const { selection } = editor;
   const isCollapsed = selection && Range.isCollapsed(selection);
-
   const link = {
     type: "link",
     url,
     children: isCollapsed ? [{ text: url }] : [],
   } as any;
-
-  if (isCollapsed) {
-    Transforms.insertNodes(editor, link);
-  } else {
+  if (isCollapsed) Transforms.insertNodes(editor, link);
+  else {
     Transforms.wrapNodes(editor, link, { split: true });
     Transforms.collapse(editor, { edge: "end" });
   }
 };
 
 // ---------- Images ----------
-const insertImage = (editor: Editor, url: string) => {
-  const image = { type: "image", url, children: [{ text: "" }] } as any;
-  Transforms.insertNodes(editor, image);
+const insertImage = (editor: Editor, file: File) => {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const url = reader.result as string;
+    const image = { type: "image", url, children: [{ text: "" }] } as any;
+    Transforms.insertNodes(editor, image);
+  };
+  reader.readAsDataURL(file);
 };
 
 // ---------- Renderers ----------
@@ -167,7 +158,6 @@ const Element = ({ attributes, children, element }: any) => {
       return <p {...attributes}>{children}</p>;
   }
 };
-
 const Leaf = ({ attributes, children, leaf }: any) => {
   if (leaf.bold) children = <strong>{children}</strong>;
   if (leaf.italic) children = <em>{children}</em>;
@@ -186,13 +176,12 @@ const ToolbarButton: React.FC<{
   <button
     type="button"
     className={`create-toolbar-btn ${active ? "is-active" : ""}`}
-    onMouseDown={onMouseDown}
     title={title}
+    onMouseDown={onMouseDown}
   >
     {children}
   </button>
 );
-
 const Toolbar: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (
     <div className="create-editor-toolbar">
@@ -304,11 +293,16 @@ const Toolbar: React.FC<{ editor: Editor }> = ({ editor }) => {
         🔗
       </ToolbarButton>
       <ToolbarButton
-        title="Insert image (URL)"
+        title="Insert image (file)"
         onMouseDown={(e) => {
           e.preventDefault();
-          const url = window.prompt("Enter image URL:");
-          if (url) insertImage(editor, url);
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+          fileInput.onchange = (ev: any) => {
+            if (ev.target.files?.[0]) insertImage(editor, ev.target.files[0]);
+          };
+          fileInput.click();
         }}
       >
         🖼️
@@ -319,7 +313,10 @@ const Toolbar: React.FC<{ editor: Editor }> = ({ editor }) => {
 
 // ---------- Main component ----------
 const CreateBlog: React.FC = () => {
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(
+    () => withHtml(withHistory(withReact(createEditor()))), // 👈 added withHtml
+    []
+  );
   const [value, setValue] = useState<Descendant[]>(INITIAL_VALUE);
 
   // Meta
@@ -336,7 +333,6 @@ const CreateBlog: React.FC = () => {
     setTags((t) => (t.includes(v) ? t : [...t, v]));
     setTagInput("");
   }, [tagInput]);
-
   const removeTag = (t: string) => setTags((all) => all.filter((x) => x !== t));
 
   const onCoverChange = (file: File | null) => {
@@ -376,10 +372,8 @@ const CreateBlog: React.FC = () => {
     }
   };
 
-  // ---------- API submit ----------
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("category", category);
@@ -388,22 +382,19 @@ const CreateBlog: React.FC = () => {
     if (cover) formData.append("cover", cover);
 
     try {
-      const res = await fetch("http://localhost:5000/api/blogs/create", {
+      const res = await fetch("https://thebrightlayerbackend.onrender.com/api/blogs/create", {
         method: "POST",
         body: formData,
-        // headers: { Authorization: `Bearer ${token}` } // if auth is required
       });
-
       if (!res.ok) {
         const errData = await res.json();
         throw new Error(errData.message || "Failed to create blog");
       }
-
       const data = await res.json();
       console.log("🚀 Blog created:", data);
       alert("Blog successfully created!");
 
-      // reset form
+      // reset
       setTitle("");
       setCategory(CATEGORIES[0]);
       setTags([]);
@@ -420,10 +411,8 @@ const CreateBlog: React.FC = () => {
   return (
     <div className="create-blog-page">
       <div className="create-blog-card">
-        <h1 className="create-blog-title">✍️ Create a New Blog</h1>
-
+        <h1 className="create-blog-title">New Blog</h1>
         <form className="create-blog-form" onSubmit={handleSubmit}>
-          {/* Title */}
           <div className="create-form-group">
             <label>Blog Title</label>
             <input
@@ -435,7 +424,6 @@ const CreateBlog: React.FC = () => {
             />
           </div>
 
-          {/* Category */}
           <div className="create-form-group">
             <label>Category</label>
             <select
@@ -450,7 +438,6 @@ const CreateBlog: React.FC = () => {
             </select>
           </div>
 
-          {/* Tags */}
           <div className="create-form-group">
             <label>Tags</label>
             <div className="create-tags-row">
@@ -487,7 +474,6 @@ const CreateBlog: React.FC = () => {
             </div>
           </div>
 
-          {/* Cover */}
           <div className="create-form-group">
             <label>Cover Image</label>
             <input
@@ -502,11 +488,10 @@ const CreateBlog: React.FC = () => {
             )}
           </div>
 
-          {/* Editor */}
           <Slate
             editor={editor}
-            initialValue={INITIAL_VALUE}
-            onChange={setValue}
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
           >
             <Toolbar editor={editor} />
             <div className="create-editor-box">
@@ -521,9 +506,8 @@ const CreateBlog: React.FC = () => {
             </div>
           </Slate>
 
-          {/* Submit */}
           <div className="create-form-submit">
-            <button type="submit">🚀 Publish Blog</button>
+            <button type="submit">Publish</button>
           </div>
         </form>
       </div>

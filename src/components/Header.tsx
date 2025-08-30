@@ -115,7 +115,7 @@ const Header = () => {
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
-            Blogs
+            News
           </Link>
           {/* <div
             className="nav-link dropdown"

@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Routes, Route, useParams, useNavigate } from "react-router-dom";
 import FeaturedBlog from "../components/FeaturedBlog";
-import blogImage from "../assets/newslaundry.webp";
+import blogImage from "../assets/newslaundary.png";
 import logo from "../assets/BrightLayerLogo.png";
 import CategorySection from "../components/CategorySection";
 import LoginForm from "../components/LoginForm";
+import SettingsPage from "./SettingsPage";
+import Footer from "../components/BlogsFooter";
+import ProfileModal from "../components/ProfileModal";
+import "../styles/Profile.css";
 import AnimatedNews from "../components/AnimatedNews";
 import {
   Mail,
@@ -19,34 +23,24 @@ import {
   Pencil,
   Heart,
   Languages,
+  Edit,
 } from "lucide-react";
 import "../styles/Blogs.css";
-import { getBlogsByCategory } from "../services/blogServices";
-
-// Icon map for mobile view
-const categoryIcons: Record<string, JSX.Element> = {
-  Technology: <Monitor size={20} />,
-  Sports: <Trophy size={20} />,
-  Entertainment: <Clapperboard size={20} />,
-  Politics: <Landmark size={20} />,
-  Finance: <DollarSign size={20} />,
-  Lifestyle: <Heart size={20} />,
-  हिंदी: <Languages size={20} />,
-};
 
 // ---------------- Small Blog Card ----------------
 const SmallBlogCard: React.FC<{
-  id: string;
+  slug: string;
   title: string;
   image: string;
   category: string;
   author: string;
   date: string;
   userRole?: string;
-}> = ({ id, title, image, category, author, date, userRole }) => {
+  onDelete?: (slug: string) => void;
+}> = ({ slug, title, image, category, author, date, userRole, onDelete }) => {
   return (
     <div className="small-blog-card" style={{ position: "relative" }}>
-      <Link to={`/blogs/${id}`}>
+      <Link to={`/blogs/${slug}`}>
         <img src={image} alt={title} />
       </Link>
       <div className="info">
@@ -57,7 +51,7 @@ const SmallBlogCard: React.FC<{
         </span>
         <h4>
           <Link
-            to={`/blogs/${id}`}
+            to={`/blogs/${slug}`}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             {title}
@@ -67,18 +61,37 @@ const SmallBlogCard: React.FC<{
           {author} • {date}
         </p>
       </div>
+      {userRole === "superAdmin" && (
+        <button
+          onClick={() => onDelete && onDelete(slug)}
+          className="delete-btn"
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "red",
+            color: "white",
+            border: "none",
+            padding: "5px 10px",
+            cursor: "pointer",
+            borderRadius: "4px",
+          }}
+        >
+          Delete
+        </button>
+      )}
 
-      {/* ✅ Edit button only for admin & superAdmin */}
-      {userRole && (userRole === "admin" || userRole === "superAdmin") && (
-        <Link to={`/edit-blog/${id}`} className="edit-btn">
+      {/* {userRole && (userRole === "admin" || userRole === "superAdmin") && (
+        <Link to={`/edit-blog/${slug}`} className="edit-btn">
           <Edit size={22} />
         </Link>
-      )}
+      )} */}
     </div>
   );
 };
 
 // ---------------- Category Page ----------------
+// Add this only: CategoryPage component
 const CategoryPage: React.FC = () => {
   const { categoryName } = useParams();
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -86,140 +99,29 @@ const CategoryPage: React.FC = () => {
 
   useEffect(() => {
     if (categoryName) {
-      getBlogsByCategory(categoryName)
-        .then(setBlogs)
+      setLoading(true);
+      fetch(
+        `https://thebrightlayerbackend.onrender.com/api/blogs?category=${encodeURIComponent(
+          categoryName
+        )}`
+      )
+        .then((res) => res.json())
+        .then((data) =>
+          setBlogs(Array.isArray(data) ? data : data?.blogs || [])
+        )
         .catch((err) => console.error("Error fetching category blogs:", err))
         .finally(() => setLoading(false));
     }
   }, [categoryName]);
 
-  return (
-    <div className="category-page">
-      <h2 style={{ margin: "20px 0" }}>
-        Category: {categoryName?.replace("-", " ")}
-      </h2>
-      <CategorySection title={categoryName || ""} blogs={blogs} />
-      {loading && <p>Loading...</p>}
-      {!loading && blogs.length === 0 && <p>No blogs found.</p>}
-    </div>
-  );
-};
-
-// ---------------- Blogs Page ----------------
-const Blogs: React.FC = () => {
-  const [apiBlogs, setApiBlogs] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showMore, setShowMore] = useState(false);
-  const [hideBlogs, setHideBlogs] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (window.innerWidth <= 600 && navRef.current) {
-      navRef.current.scrollLeft = 0;
-    }
-  }, []);
-
-  const featured = {
-    title: "Proof of tech revolution shaping 2025",
-    excerpt: "How AI and startups are transforming industries worldwide.",
-    image: blogImage,
-    category: "Technology",
-    author: "Ritik Sinha",
-    date: "Aug 23, 2025",
-  };
-
-  const latestBlogs = [
-    {
-      id: "1",
-      title: "5 Trends in Modern Web Development",
-      image: blogImage,
-      category: "Web Dev",
-      author: "Team BrightLayer",
-      date: "Aug 22, 2025",
-    },
-    {
-      id: "2",
-      title: "Why Businesses Need Digital Presence in 2025",
-      image: blogImage,
-      category: "Business",
-      author: "Team BrightLayer",
-      date: "Aug 21, 2025",
-    },
-    {
-      id: "3",
-      title: "Is AI replacing jobs or creating new ones?",
-      image: blogImage,
-      category: "AI",
-      author: "Team BrightLayer",
-      date: "Aug 20, 2025",
-    },
-  ];
-
-  const mainCategories = [
-    "Technology",
-    "Sports",
-    "Entertainment",
-    "Politics",
-    "Finance",
-    "Lifestyle",
-    "हिंदी",
-  ];
-  const moreCategories = ["Login", "NL Sena", "Community", "Events"];
-
-  // ✅ Fetch role from localStorage instead of decoding JWT
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      try {
-        const parsed = JSON.parse(userData);
-        setUserRole(parsed.role);
-      } catch (err) {
-        console.error("Error parsing user from localStorage:", err);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/blogs");
-        const data = await res.json();
-        setApiBlogs(Array.isArray(data) ? data : data?.blogs || []);
-      } catch (e) {
-        console.error("Error fetching blogs:", e);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (navRef.current) {
-        const navBottom =
-          navRef.current.offsetTop + navRef.current.offsetHeight;
-        setHideBlogs(window.scrollY > navBottom);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const formatDate = (iso?: string) => {
-    try {
-      return iso
-        ? new Date(iso).toLocaleDateString("en-US", {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-          })
-        : "";
-    } catch {
-      return "";
-    }
-  };
+  const formatDate = (iso?: string) =>
+    iso
+      ? new Date(iso).toLocaleDateString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        })
+      : "";
 
   const contentToExcerpt = (contentStr?: string) => {
     try {
@@ -236,11 +138,252 @@ const Blogs: React.FC = () => {
   };
 
   const toCard = (b: any) => {
-    const img = b?.mainImage
-      ? `http://localhost:5000/${String(b.mainImage).replace(/\\/g, "/")}`
-      : blogImage;
+    let img = blogImage; // fallback image
+
+    if (b?.mainImage) {
+      if (b.mainImage.startsWith("data:image")) {
+        img = b.mainImage;
+      } else if (/^[A-Za-z0-9+/=]+$/.test(b.mainImage)) {
+        img = `data:image/jpeg;base64,${b.mainImage}`;
+      } else {
+        img = `https://thebrightlayerbackend.onrender.com/${String(
+          b.mainImage
+        ).replace(/\\/g, "/")}`;
+      }
+    } else if (b?.content) {
+      // Optionally generate an image placeholder or thumbnail from content
+      img = blogImage;
+    }
+
     return {
-      id: b?._id || String(Math.random()),
+      slug: b?.slug || b?._id || String(Math.random()),
+      title: b?.title || "Untitled",
+      mainImage: img, // ✅ must match CategorySection
+      category: b?.category || "General",
+      author: b?.author || "Team BrightLayer",
+      date: formatDate(b?.createdAt || b?.updatedAt),
+      excerpt: contentToExcerpt(b?.content),
+    };
+  };
+
+  const cards = blogs.map(toCard);
+
+  return (
+    <div className="category-page">
+      <h2 style={{ margin: "20px 0" }}>
+        Category: {categoryName?.replace("-", " ")}
+      </h2>
+      {loading && <p>Loading...</p>}
+      {!loading && cards.length === 0 && <p>No blogs found.</p>}
+      <div className="all-category-blogs">
+        {cards.map((blog) => (
+          <SmallBlogCard
+            key={blog.slug}
+            slug={blog.slug}
+            title={blog.title}
+            image={blog.image}
+            category={blog.category}
+            author={blog.author}
+            date={blog.date}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ---------------- CategoryBlock (optimized) ----------------
+const CategoryBlock: React.FC<{
+  category: string;
+  cards: any[];
+  userRole?: string;
+}> = ({ category, cards, userRole }) => {
+  if (!cards || cards.length === 0) return null;
+
+  const [featured, ...rest] = cards;
+  const small = rest.slice(0, 3);
+
+  return (
+    <div className="category-block">
+      <Link
+        to={`/blogs/${featured.slug}`}
+        style={{ textDecoration: "none" }}
+        className="featured-blog"
+      >
+        <FeaturedBlog {...featured} />
+      </Link>
+
+      <div className="small-blogs-row">
+        {small.map((b) => (
+          <SmallBlogCard
+            key={b.slug}
+            slug={b.slug}
+            title={b.title}
+            image={b.image}
+            category={b.category}
+            author={b.author}
+            date={b.date}
+            userRole={userRole}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ---------------- Blogs Page ----------------
+const Blogs: React.FC = () => {
+  const [apiBlogs, setApiBlogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showMore, setShowMore] = useState(false);
+  const [hideBlogs, setHideBlogs] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredBlogs, setFilteredBlogs] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredBlogs(apiBlogs);
+    } else {
+      const filtered = apiBlogs.filter((b) =>
+        b.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredBlogs(filtered);
+    }
+  }, [searchTerm, apiBlogs]);
+
+  const mainCategories = [
+    "Technology",
+    "Sports",
+    "Entertainment",
+    "Politics",
+    "Finance",
+    "Lifestyle",
+    "हिंदी",
+  ];
+  const moreCategories = ["Community", "Events"];
+
+  const categoryIcons: Record<string, JSX.Element> = {
+    Technology: <Monitor size={20} />,
+    Sports: <Trophy size={20} />,
+    Entertainment: <Clapperboard size={20} />,
+    Politics: <Landmark size={20} />,
+    Finance: <DollarSign size={20} />,
+    Lifestyle: <Heart size={20} />,
+    हिंदी: <Languages size={20} />,
+  };
+
+  const handleDelete = async (slug: string) => {
+    if (!window.confirm("Are you sure you want to delete this blog?")) return;
+
+    try {
+      const res = await fetch(
+        `https://thebrightlayerbackend.onrender.com/api/blogs/${slug}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`, // if your API requires auth
+          },
+        }
+      );
+
+      if (res.ok) {
+        setApiBlogs((prev) =>
+          prev.filter((b) => b.slug !== slug && b._id !== slug)
+        );
+        alert("Blog deleted successfully!");
+      } else {
+        alert("Failed to delete blog.");
+      }
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+      alert("Something went wrong!");
+    }
+  };
+
+  // ---------------- Fetch all blogs once ----------------
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(
+          "https://thebrightlayerbackend.onrender.com/api/blogs"
+        );
+        const data = await res.json();
+        setApiBlogs(Array.isArray(data) ? data : data?.blogs || []);
+      } catch (e) {
+        console.error("Error fetching blogs:", e);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  // ---------------- Get user role ----------------
+  useEffect(() => {
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUserRole(parsed.role);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }, []);
+
+  // ---------------- Helper functions ----------------
+  const formatDate = (iso?: string) =>
+    iso
+      ? new Date(iso).toLocaleDateString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        })
+      : "";
+
+  const contentToExcerpt = (contentStr?: string) => {
+    try {
+      if (!contentStr) return "";
+      const nodes = JSON.parse(contentStr);
+      const firstText =
+        Array.isArray(nodes) && nodes.length > 0 && nodes[0].children
+          ? nodes[0].children.map((c: any) => c.text || "").join(" ")
+          : "";
+      return firstText.slice(0, 160);
+    } catch {
+      return "";
+    }
+  };
+
+  const toCard = (b: any) => {
+    let img = blogImage;
+
+    if (b?.mainImage) {
+      if (b.mainImage.startsWith("data:image")) {
+        img = b.mainImage;
+      } else if (/^[A-Za-z0-9+/=]+$/.test(b.mainImage)) {
+        img = `data:image/jpeg;base64,${b.mainImage}`;
+      } else {
+        img = `https://thebrightlayerbackend.onrender.com/${String(
+          b.mainImage
+        ).replace(/\\/g, "/")}`;
+      }
+    }
+
+    return {
+      slug: b?.slug || b?._id || String(Math.random()),
       title: b?.title || "Untitled",
       image: img,
       category: b?.category || "General",
@@ -250,91 +393,199 @@ const Blogs: React.FC = () => {
     };
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("profilePhoto");
+    setUser(null);
+    setUserRole(null);
+    setShowProfile(false);
+  };
+
+  // ---------------- Scroll effect ----------------
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navRef.current) {
+        const navBottom =
+          navRef.current.offsetTop + navRef.current.offsetHeight;
+        setHideBlogs(window.scrollY > navBottom);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // ---------------- Group blogs per category ----------------
+  const blogsByCategory = mainCategories.reduce((acc, cat) => {
+    acc[cat] = apiBlogs
+      .filter((b) => b.category === cat)
+      .slice(0, 4)
+      .map(toCard);
+    return acc;
+  }, {} as Record<string, any[]>);
+
+  // ---------------- Featured & latest ----------------
   const apiCards = apiBlogs.map(toCard);
   const featuredFromApi = apiCards[0];
   const latestFromApi = apiCards.slice(1, 4);
-  const sectionAFromApi = apiCards.slice(4, 7);
-  const sectionBFromApi = apiCards.slice(7, 10);
 
   const featuredToUse = featuredFromApi
-    ? {
-        id: featuredFromApi.id,
-        title: featuredFromApi.title,
-        excerpt: featuredFromApi.excerpt || featured.excerpt,
-        image: featuredFromApi.image,
-        category: featuredFromApi.category,
-        author: featuredFromApi.author,
-        date: featuredFromApi.date,
-      }
-    : featured;
+    ? { slug: featuredFromApi.slug, ...featuredFromApi }
+    : {
+        slug: "1",
+        title: "Proof of tech revolution shaping 2025",
+        excerpt: "How AI and startups are transforming industries worldwide.",
+        image: blogImage,
+        category: "Technology",
+        author: "Ritik Sinha",
+        date: "Aug 23, 2025",
+      };
 
   const latestToUse =
     latestFromApi.length > 0
-      ? latestFromApi.map(({ id, title, image, category, author, date }) => ({
-          id,
+      ? latestFromApi.map(({ slug, title, image, category, author, date }) => ({
+          slug,
           title,
           image,
           category,
           author,
           date,
         }))
-      : latestBlogs;
+      : [
+          {
+            slug: "1",
+            title: "5 Trends in Modern Web Development",
+            image: blogImage,
+            category: "Web Dev",
+            author: "Team BrightLayer",
+            date: "Aug 22, 2025",
+          },
+          {
+            slug: "2",
+            title: "Why Businesses Need Digital Presence in 2025",
+            image: blogImage,
+            category: "Business",
+            author: "Team BrightLayer",
+            date: "Aug 21, 2025",
+          },
+          {
+            slug: "3",
+            title: "Is AI replacing jobs or creating new ones?",
+            image: blogImage,
+            category: "AI",
+            author: "Team BrightLayer",
+            date: "Aug 20, 2025",
+          },
+        ];
 
-  const techReviewsToUse =
-    sectionAFromApi.length > 0
-      ? sectionAFromApi.map(({ id, title, image, category, author, date }) => ({
-          id,
-          title,
-          image,
-          category,
-          author,
-          date,
-        }))
-      : latestBlogs;
-  const navigate = useNavigate();
-  const caseStudiesToUse =
-    sectionBFromApi.length > 0
-      ? sectionBFromApi.map(({ id, title, image, category, author, date }) => ({
-          id,
-          title,
-          image,
-          category,
-          author,
-          date,
-        }))
-      : latestBlogs;
+  // ---------------- Language detection ----------------
+  const currentLang: "hi" | "en" | undefined = apiBlogs.some(
+    (b) => b?.language === "hi" || b?.category === "हिंदी"
+  )
+    ? "hi"
+    : undefined;
 
+  // ---------------- JSX ----------------
   return (
     <Routes>
       <Route
         path="/"
         element={
           <div className="blogs-page">
+            {/* Navbar & logo */}
             <div className="blog-logo">
-              <Link to="/">
+              <Link to="/blogs">
                 <img src={logo} alt="BrightLayer Logo" className="logo" />
               </Link>
             </div>
-
+            {searchOpen && (
+              <input
+                type="text"
+                placeholder="Search blogs..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            )}
             <div className="navbar-right">
-              <button className="icon-btn" title="Messages">
+              <button
+                className="icon-btn"
+                onClick={() => {
+                  window.location.href = "mailto:contact@thebrightlayer.com";
+                }}
+              >
                 <Mail size={22} />
               </button>
-              <button className="icon-btn" title="Search">
+              <button
+                className="icon-btn"
+                title="Search"
+                onClick={() => setSearchOpen(!searchOpen)}
+              >
                 <Search size={22} />
               </button>
-              <button className="icon-btn" title="Settings">
+
+              <button
+                className="icon-btn"
+                title="Settings"
+                onClick={() => setShowSettings(true)}
+              >
                 <Settings size={22} />
               </button>
               <button className="subscribe-btn">Subscribe</button>
-              <button
-                className="icon-btn"
-                title="Profile"
-                onClick={() => navigate("/login")}
-              >
-                <User size={22} />
-              </button>
+
+              {!user ? (
+                <button
+                  className="icon-btn"
+                  title="Login"
+                  onClick={() => setShowLoginModal(true)}
+                >
+                  <User size={22} />
+                </button>
+              ) : (
+                <img
+                  src={
+                    localStorage.getItem("profilePhoto") ||
+                    "https://www.w3schools.com/w3images/avatar2.png"
+                  }
+                  alt="Profile"
+                  className="nav-profile"
+                  onClick={() => setShowProfileModal(true)}
+                />
+              )}
             </div>
+
+            {showProfileModal && (
+              <ProfileModal
+                user={user}
+                onClose={() => setShowProfileModal(false)}
+                onLogout={handleLogout}
+                onUpdateUser={setUser}
+              />
+            )}
+            {showLoginModal && (
+              <LoginForm
+                onClose={() => setShowLoginModal(false)}
+                onLoginSuccess={() => {
+                  const stored = localStorage.getItem("user");
+                  if (stored) {
+                    const parsed = JSON.parse(stored);
+                    setUser(parsed);
+                    setUserRole(parsed.role);
+                  }
+                  setShowLoginModal(false);
+                }}
+              />
+            )}
+            {showSettings && (
+              <SettingsPage onClose={() => setShowSettings(false)} />
+            )}
+            {showProfile && user && (
+              <ProfileModal
+                user={user}
+                onClose={() => setShowProfile(false)}
+                onLogout={handleLogout}
+                onUpdateUser={setUser}
+              />
+            )}
 
             <AnimatedNews />
 
@@ -351,31 +602,7 @@ const Blogs: React.FC = () => {
                 );
 
                 return isHindi ? (
-                  <button
-                    key={index}
-                    className="category-btn"
-                    onClick={async () => {
-                      try {
-                        setLoading(true);
-                        const isCurrentlyHindi = apiBlogs.some(
-                          (b) => b?.language === "hi" || b?.category === "हिंदी"
-                        );
-
-                        const lang = isCurrentlyHindi ? "en" : "hi";
-                        const res = await fetch(
-                          `http://localhost:5000/api/blogs?lang=${lang}`
-                        );
-                        const data = await res.json();
-                        setApiBlogs(
-                          Array.isArray(data) ? data : data?.blogs || []
-                        );
-                      } catch (e) {
-                        console.error("Error toggling language blogs:", e);
-                      } finally {
-                        setLoading(false);
-                      }
-                    }}
-                  >
+                  <button key={index} className="category-btn">
                     {buttonContent}
                   </button>
                 ) : (
@@ -422,53 +649,61 @@ const Blogs: React.FC = () => {
                 )}
               </div>
 
-              <Link
-                to="/create-blog"
-                className="create-blog-btn"
-                title="Create New Blog"
-              >
-                <Pencil size={32} />
-              </Link>
+              {userRole === "admin" && (
+                <Link
+                  to="/create-blog"
+                  className="create-blog-btn"
+                  title="Create New Blog"
+                >
+                  <Pencil size={32} />
+                </Link>
+              )}
             </div>
 
             {/* Blogs Section */}
             <div className={`blogs-section ${hideBlogs ? "hidden" : ""}`}>
+              {/* Featured blog */}
               <Link
-                to={`/blogs/${featuredToUse.id || "1"}`}
+                to={`/blogs/${featuredToUse.slug}`}
                 style={{ textDecoration: "none" }}
+                className="featured-blog"
               >
                 <FeaturedBlog {...featuredToUse} />
               </Link>
 
+              {/* Latest small blogs */}
               <div className="small-blogs-row">
-                {(loading ? latestBlogs : latestToUse).map((blog: any) => (
+                {(searchTerm ? filteredBlogs : latestToUse).map((blog) => (
                   <SmallBlogCard
-                    key={blog.id}
-                    id={blog.id}
+                    key={blog.slug}
+                    slug={blog.slug}
                     title={blog.title}
                     image={blog.image}
                     category={blog.category}
                     author={blog.author}
                     date={blog.date}
                     userRole={userRole || undefined}
+                    onDelete={handleDelete}
                   />
                 ))}
               </div>
 
-              <CategorySection
-                title="Tech Reviews"
-                blogs={loading ? latestBlogs : techReviewsToUse}
-              />
-              <CategorySection
-                title="Case Studies"
-                blogs={loading ? latestBlogs : caseStudiesToUse}
-              />
+              {/* Categories - optimized */}
+              <div className="categories-four-pack">
+                {mainCategories.map((cat) => (
+                  <CategoryBlock
+                    key={cat}
+                    category={cat}
+                    cards={blogsByCategory[cat]}
+                    userRole={userRole || undefined}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         }
       />
 
-      {/* Category Page */}
       <Route path="/category/:categoryName" element={<CategoryPage />} />
     </Routes>
   );

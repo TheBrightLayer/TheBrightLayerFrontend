@@ -1,271 +1,242 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
-export default function LoginForm({ onClose }: { onClose: () => void }) {
+interface LoginFormProps {
+  onClose: () => void;
+  onLoginSuccess: (user: any) => void;
+}
+
+export default function LoginForm({ onClose, onLoginSuccess }: LoginFormProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const fetchUserRole = async (token: string) => {
+    const res = await fetch(`https://thebrightlayerbackend.onrender.com/api/auth/me/role`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return await res.json();
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("https://thebrightlayerbackend.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+      const data = await res.json();
+      if (!res.ok) return setError(data?.msg || "Login failed");
 
-      const text = await res.text();
-      let data: any = null;
-      if (text) {
-        try {
-          data = JSON.parse(text);
-        } catch (err) {
-          console.warn("Response not JSON:", err, text);
-        }
-      }
+      const profile = await fetchUserRole(data.token);
+      const user = {
+        token: data.token,
+        role: profile.role || "admin",
+        username: profile.username || email.split("@")[0],
+        email: profile.email || email,
+        profilePicture: profile.profilePicture,
+      };
 
-      if (!res.ok) {
-        setError(data?.msg || "Login failed");
-        return;
-      }
-
-      if (data?.token) {
-        localStorage.setItem("token", data.token);
-        navigate("/blogs");
-      } else setError("Login succeeded but no token returned.");
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
+      localStorage.setItem("user", JSON.stringify(user));
+      onLoginSuccess(user);
+      onClose();
+      navigate("/blogs");
+    } catch {
+      setError("Something went wrong.");
     }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch("https://thebrightlayerbackend.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+      const data = await res.json();
+      if (!res.ok) return setError(data?.msg || "Registration failed");
 
-      const text = await res.text();
+      const profile = await fetchUserRole(data.token);
+      const user = {
+        token: data.token,
+        role: profile.role || "reader",
+        username: profile.username || email.split("@")[0],
+        email: profile.email || email,
+        profilePicture: profile.profilePicture,
+      };
 
-      let data: any = null;
-      if (text) {
-        try {
-          data = JSON.parse(text);
-        } catch (err) {
-          console.warn("Response not JSON:", err, text);
-        }
-      }
-
-      if (!res.ok) {
-        setError(data?.msg || "Registration failed");
-        return;
-      }
-
-      if (data?.token) {
-        localStorage.setItem("token", data.token);
-        navigate("/blogs");
-      } else setError("Registration succeeded but no token returned.");
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
+      localStorage.setItem("user", JSON.stringify(user));
+      onLoginSuccess(user);
+      onClose();
+      navigate("/blogs");
+    } catch {
+      setError("Something went wrong.");
     }
   };
-  const navigate = useNavigate();
+
+  const handleSocialLogin = async (
+    provider: "google" | "facebook" | "apple",
+    token: string,
+    extra?: any
+  ) => {
+    try {
+      const body =
+        provider === "google"
+          ? { idToken: token }
+          : provider === "facebook"
+          ? { accessToken: token, userID: extra?.userID }
+          : { identityToken: token, name: extra?.name, email: extra?.email };
+
+      const res = await fetch(
+        `https://thebrightlayerbackend.onrender.com/api/auth/login/${provider}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) return setError(data?.msg || `${provider} login failed`);
+
+      localStorage.setItem("user", JSON.stringify(data.user));
+      onLoginSuccess(data.user);
+      onClose();
+      navigate("/blogs");
+    } catch (err) {
+      console.error(err);
+      setError(`Something went wrong with ${provider} login.`);
+    }
+  };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "rgba(20, 20, 30, 0.85)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-        backdropFilter: "blur(4px)",
-      }}
-    >
-      <div
-        style={{
-          background: "rgba(255, 255, 255, 0.05)",
-          backdropFilter: "blur(12px)",
-          borderRadius: "15px",
-          padding: "2.5rem 2rem",
-          width: "420px",
-          maxWidth: "90%",
-          boxShadow: "0 15px 40px rgba(0, 0, 0, 0.6)",
-          color: "#fff",
-          position: "relative",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
-          animation: "slideFade 0.4s ease forwards",
-        }}
-      >
-        <button
-          onClick={() => navigate("/blogs")}
-          style={{
-            position: "absolute",
-            top: "15px",
-            right: "20px",
-            background: "none",
-            border: "none",
-            fontSize: "1.6rem",
-            color: "#fff",
-            cursor: "pointer",
-            transition: "transform 0.2s",
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = "rotate(90deg)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = "none";
-          }}
-        >
-          ✖
-        </button>
-
-        <h2
-          style={{
-            textAlign: "center",
-            fontSize: "1.8rem",
-            marginBottom: "0.3rem",
-            letterSpacing: "1px",
-          }}
-        >
-          {isLogin ? "Login" : "Register"}
-        </h2>
-
-        {error && (
-          <p
-            style={{
-              color: "#ff4d4f",
-              fontSize: "0.9rem",
-              textAlign: "center",
-              marginBottom: "1rem",
-            }}
+    <div className="overlay">
+      <div className="auth-card">
+        <div className="tabs">
+          <button
+            className={isLogin ? "active" : ""}
+            onClick={() => setIsLogin(true)}
           >
-            {error}
-          </p>
-        )}
+            LOGIN
+          </button>
+          <button
+            className={!isLogin ? "active" : ""}
+            onClick={() => setIsLogin(false)}
+          >
+            REGISTER
+          </button>
+        </div>
 
-        <form
-          onSubmit={isLogin ? handleLogin : handleRegister}
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
+        <div className="social-buttons">
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              if (!credentialResponse.credential)
+                return setError("Google login failed");
+              handleSocialLogin("google", credentialResponse.credential);
+            }}
+            onError={() => setError("Google login failed")}
+          />
+        </div>
+
+        <div className="divider">
+          <span>OR LOGIN WITH</span>
+        </div>
+
+        {error && <p className="error">{error}</p>}
+
+        <form onSubmit={isLogin ? handleLogin : handleRegister}>
+          <label>Email Address</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{
-              padding: "0.8rem 1rem",
-              borderRadius: "12px",
-              border: "none",
-              background: "rgba(255, 255, 255, 0.1)",
-              color: "#fff",
-              fontSize: "1rem",
-              outline: "none",
-              transition: "background 0.3s, transform 0.2s",
-            }}
-            onFocus={(e) =>
-              (e.currentTarget.style.background = "rgba(255, 255, 255, 0.2)")
-            }
-            onBlur={(e) =>
-              (e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)")
-            }
           />
+          <label>Password</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{
-              padding: "0.8rem 1rem",
-              borderRadius: "12px",
-              border: "none",
-              background: "rgba(255, 255, 255, 0.1)",
-              color: "#fff",
-              fontSize: "1rem",
-              outline: "none",
-              transition: "background 0.3s, transform 0.2s",
-            }}
-            onFocus={(e) =>
-              (e.currentTarget.style.background = "rgba(255, 255, 255, 0.2)")
-            }
-            onBlur={(e) =>
-              (e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)")
-            }
           />
-          <button
-            type="submit"
-            style={{
-              padding: "0.8rem",
-              borderRadius: "12px",
-              border: "none",
-              background: "linear-gradient(135deg, #6a0dad, #ff00ff)",
-              color: "#fff",
-              fontWeight: "bold",
-              fontSize: "1rem",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-              boxShadow: "0 6px 15px rgba(255, 0, 255, 0.3)",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.boxShadow =
-                "0 8px 20px rgba(255, 0, 255, 0.5)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow =
-                "0 6px 15px rgba(255, 0, 255, 0.3)";
-            }}
-          >
-            {isLogin ? "Login" : "Register"}
+          <div className="actions">
+            <a href="#">Forgot Password?</a>
+            <button type="submit">{isLogin ? "LOGIN" : "REGISTER"}</button>
+          </div>
+          {/* Close button below the form */}
+          <button type="button" className="close-btn" onClick={onClose}>
+            CLOSE
           </button>
         </form>
-
-        <p
-          style={{
-            marginTop: "1.2rem",
-            textAlign: "center",
-            fontSize: "0.9rem",
-            color: "#ccc",
-          }}
-        >
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-          <button
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError("");
-            }}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#ff00ff",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.color = "#ff99ff")}
-            onMouseOut={(e) => (e.currentTarget.style.color = "#ff00ff")}
-          >
-            {isLogin ? "Register" : "Login"}
-          </button>
-        </p>
       </div>
+
+      <style>{`
+        .overlay {
+          position: fixed !important;
+          inset: 0 !important;
+          background: rgba(0, 0, 0, 0.85) !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          z-index: 1000 !important;
+          backdrop-filter: blur(4px) !important;
+        }
+        .auth-card {
+          background: #121212 !important;
+          padding: 2rem 2.5rem !important;
+          width: 420px !important;
+          border-radius: 14px !important;
+          box-shadow: 0 12px 40px rgba(0,0,0,0.8) !important;
+          color: #f5f5f5 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1.2rem !important;
+          font-family: "Inter", sans-serif !important;
+        }
+        .tabs { display: flex !important; justify-content: space-around !important; border-bottom: 1px solid #333 !important; }
+        .tabs button { flex: 1 !important; padding: 0.9rem 0 !important; background: none !important; border: none !important; color: #aaa !important; font-weight: 600 !important; cursor: pointer !important; transition: color 0.2s, border-bottom 0.2s !important; }
+        .tabs button.active { color: #1a4eff !important; border-bottom: 3px solid #1a4eff !important; }
+        .social-buttons { display: flex !important; flex-direction: column !important; gap: 0.7rem !important; margin-bottom: 1.2rem !important; }
+        .divider { display: flex !important; align-items: center !important; margin: 1rem 0 !important; }
+        .divider span { flex: 1 !important; text-align: center !important; font-size: 0.75rem !important; color: #888 !important; position: relative !important; }
+        .divider span::before, .divider span::after { content: "" !important; height: 1px !important; background: #333 !important; flex: 1 !important; margin: 0 0.5rem !important; }
+        form { display: flex !important; flex-direction: column !important; gap: 0.8rem !important; }
+        form label { font-size: 0.8rem !important; color: #aaa !important; font-weight: 500 !important; }
+        form input { padding: 0.7rem !important; border-radius: 6px !important; border: 1px solid #333 !important; background: #1b1b1b !important; color: #fff !important; font-size: 0.9rem !important; transition: all 0.2s !important; }
+        form input:focus { outline: none !important; border-color: #1a4eff !important; background: #222 !important; }
+        .actions { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-top: 1rem !important; }
+        .actions a { color: #888 !important; font-size: 0.8rem !important; text-decoration: none !important; transition: color 0.2s !important; }
+        .actions a:hover { color: #1a4eff !important; }
+        .actions button { background: #1a4eff !important; border: none !important; padding: 0.65rem 1.3rem !important; color: #fff !important; border-radius: 6px !important; font-weight: 600 !important; cursor: pointer !important; transition: background 0.2s !important; }
+        .actions button:hover { background: #0033cc !important; }
+        .error { color: #ff4d4f !important; text-align: center !important; margin-bottom: 0.8rem !important; font-size: 0.9rem !important; }
+        .close-btn {
+        position : relative;
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #d32f2f;
+}
+      `}</style>
     </div>
   );
 }

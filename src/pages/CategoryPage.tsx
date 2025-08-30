@@ -5,15 +5,15 @@ import { blogServices } from "../services/blogCategoryService";
 import CategorySection from "../components/CategorySection";
 import LoginForm from "../components/LoginForm";
 import AnimatedNews from "../components/AnimatedNews";
-import logo from "../assets/BrightLayerLogo.png"; // ✅ Update path if needed
+import logo from "../assets/BrightLayerLogo.png";
 
 import { Mail, Search, Settings, User } from "react-feather";
 import "../styles/blogs.css";
 
 interface Blog {
-  id: string;
+  slug: string;
   title: string;
-  image: string;
+  mainImage?: string;
   category: string;
   author: string;
   date: string;
@@ -23,23 +23,26 @@ const CategoryPage = () => {
   const { categoryName } = useParams<{ categoryName: string }>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loading, setLoading] = useState(true); // ✅ loading state
 
   useEffect(() => {
     if (categoryName) {
+      setLoading(true); // start loader
       blogServices
         .getBlogsByCategory(categoryName)
         .then((data) => {
           const mappedBlogs = data.map((b: any) => ({
-            id: b._id,
+            slug: b.slug,
             title: b.title,
-            image: `http://localhost:5000/${b.mainImage.replace(/\\/g, "/")}`,
+            mainImage: b.mainImage,
             category: b.category,
             author: b?.author ?? "Unknown",
             date: new Date(b.createdAt).toLocaleDateString(),
           }));
           setBlogs(mappedBlogs);
         })
-        .catch(console.error);
+        .catch(console.error)
+        .finally(() => setLoading(false)); // stop loader
     }
   }, [categoryName]);
 
@@ -47,7 +50,7 @@ const CategoryPage = () => {
     <div className="blogs-page">
       {/* ===== Hero Header with Logo and Navbar ===== */}
       <div className="blog-logo">
-        <Link to="/">
+        <Link to="/blogs">
           <img src={logo} alt="BrightLayer Logo" className="logo" />
         </Link>
       </div>
@@ -78,7 +81,6 @@ const CategoryPage = () => {
       <AnimatedNews />
 
       {/* ===== Blog Category Content ===== */}
-      {/* ===== Blog Category Content ===== */}
       <div className="blogs-container">
         {/* ===== Breadcrumb ===== */}
         <div className="breadcrumb">
@@ -91,11 +93,18 @@ const CategoryPage = () => {
           </span>
         </div>
 
-        <CategorySection
-          title={categoryName?.toUpperCase() || ""}
-          blogs={blogs}
-          bigCards
-        />
+        {/* ✅ Loader animation */}
+        {loading ? (
+          <div className="loader-wrapper">
+            <div className="loader"></div>
+            <p>Loading {categoryName} blogs...</p>
+          </div>
+        ) : (
+          <CategorySection
+            title={categoryName?.toUpperCase() || ""}
+            blogs={blogs}
+          />
+        )}
       </div>
     </div>
   );
