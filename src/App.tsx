@@ -48,7 +48,8 @@ function AppContent() {
       <Routes>
         {/* Blog and category routes without header/footer */}
         <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blogs/:id" element={<BlogDetail />} />
+        <Route path="/blogs/:slug" element={<BlogDetail />} />
+
         <Route path="/category/:categoryName" element={<CategoryPage />} />
 
         {/* All other pages inside layout */}
